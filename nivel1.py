@@ -12,7 +12,7 @@ class Pacman(pygame.sprite.Sprite):
     """
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('pac2.png').convert()
+        self.image = pygame.image.load('pac.png').convert()
         self.image.set_colorkey(NEGRO)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.rect = self.image.get_rect()
