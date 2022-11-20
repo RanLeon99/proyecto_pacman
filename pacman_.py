@@ -24,7 +24,6 @@ class Pacman(pygame.sprite.Sprite):
         self.rect.bottom = 280
         self.speed_x = 10
 
-
     def handle_event(self, event):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
             DE PACMAN POR TODO EL MAPA
@@ -96,8 +95,7 @@ class Fantasma2(pygame.sprite.Sprite):
         self.rect.bottom = 80
         self.speed_x = 0
 
-
-    def handle_event(self,mov_fantasma2):
+    def handle_event(self, mov_fantasma2):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
             DEL FANTASMA POR TODO EL MAPA
 
@@ -116,6 +114,7 @@ class Fantasma2(pygame.sprite.Sprite):
         else:
             self.rect.y -= 1
 
+
 class Fantasma3(pygame.sprite.Sprite):
     """ Clase de fantama1, encargada de crear un personaje de fantamas
         y genera su movimento aleatoriamente.
@@ -133,7 +132,6 @@ class Fantasma3(pygame.sprite.Sprite):
         self.rect.centerx = 30
         self.rect.bottom = 400
         self.speed_x = 0
-
 
     def handle_event(self, mov_fantasma3):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
@@ -178,7 +176,7 @@ def dibuja_food_special(superficie, rectangulo):
     RECTACGULO = POSICION EN LA VENTANA (X,Y)
     """
     imagen_food = pygame.image.load('food.png')
-    food = pygame.transform.scale(imagen_food, (20,20))
+    food = pygame.transform.scale(imagen_food, (20, 20))
     superficie.blit(food, rectangulo)
 
 
@@ -197,21 +195,22 @@ def construir_mapa(mapa):
 
         INT = CONTADOR DE COMIDA
     """
-    muros=[]
-    comida=[]
-    food_special=[]
+    muros = []
+    comida = []
+    food_special = []
     contador_comida = 0
-    x=0
-    y=0
+    x = 0
+    y = 0
     # RECORRE LA LISTA MAPA
     for muro in mapa:
         for ladrillo in muro:
-            # SI HAY UNA X ES UN MURO Y LO AGREGA A LA LISTA CON SUS COORDENADAS
+            # SI HAY UNA X ES UN MURO Y LO AGREGA A LA LISTA
+            # CON SUS COORDENADAS
             if ladrillo == "x":
                 # coordernadas y el tamanno donde se ubicaran en el mapa
                 muros.append(pygame.Rect(x, y, 20, 20))
                 # se mueve a la siguiente columna
-                x+= 20
+                x += 20
 
             # SI ES UNA M ES COMIDA NORMAL
             elif ladrillo == "m":
@@ -229,8 +228,8 @@ def construir_mapa(mapa):
                 x += 20
         # SE MUEVE DE FILA
         x = 0
-        y += 20 # Va corriendo a lo largo de todas la comlumnas
-    return muros,comida, contador_comida, food_special
+        y += 20  # Va corriendo a lo largo de todas la comlumnas
+    return muros, comida, contador_comida, food_special
 
 
 def recorre_lista_muros(superficie, muros, muro_nuevo):
@@ -239,7 +238,7 @@ def recorre_lista_muros(superficie, muros, muro_nuevo):
     """
     for m in muros:
         # LLAMA LA FUNCION PARA CREAR LOS MUROS
-        dibuja_muro(superficie, m,muro_nuevo)
+        dibuja_muro(superficie, m, muro_nuevo)
 
 
 def recorre_lista_comida(superficie, comida):
@@ -293,7 +292,8 @@ def eliminar_food_especial(food_special, contador_comida, vidas_pacman):
     """
     for v_food_special in list(food_special):
         # ELIMINA DE LA LISTA DE FOOD SPECIAL SI PACMAN TOCA LA COMIDA
-        if pacman.rect.collidepoint(v_food_special.centerx, v_food_special.centery):
+        if pacman.rect.collidepoint(v_food_special.centerx,
+                                    v_food_special.centery):
             food_special.remove(v_food_special)
             # VA RESTANDO LA COMIDA EN EL CONTADOR
             contador_comida -= 1
@@ -312,13 +312,14 @@ def variable_movimento_fantasma1(mov_fantasma1):
 
         ENTRADA = VALOR ACTUAL DEL MOVIMIENTO DE PACMAN (INT)
         SE GUARDA ESTA ENTRADA PARA QUE EL VALOR NUEVO NO SEA IGUAL A ESTE
-        EN CASO QUE SEA IGUAL GENERA UNA RECURSIVIDAD HASTA QUE EL DATO GENERADO
+        EN CASO QUE SEA IGUAL GENERA UNA RECURSIVIDAD
+        HASTA QUE EL DATO GENERADO
         SEA DIFERENTE A LA ENTRADA
 
         SALIDA = VALOR NUEVO DE MOVIMIENTO (INT)
     """
     mov_pasado = mov_fantasma1
-    mov_fantasma1 = random.randint(0,3)
+    mov_fantasma1 = random.randint(0, 3)
     if mov_pasado != mov_fantasma1:
         Fantasma1.handle_event(mov_fantasma1)
         print(' mov2 {}'.format(mov_fantasma1))
@@ -327,26 +328,25 @@ def variable_movimento_fantasma1(mov_fantasma1):
     return mov_fantasma1
 
 
-
-
 def variable_movimento_fantasma2(mov_fantasma2):
     """ FUNCION QUE GENERAR EL NUMERO PARA QUE PACMAN SE MUEVA
 
         ENTRADA = VALOR ACTUAL DEL MOVIMIENTO DE PACMAN (INT)
         SE GUARDA ESTA ENTRADA PARA QUE EL VALOR NUEVO NO SEA IGUAL A ESTE
-        EN CASO QUE SEA IGUAL GENERA UNA RECURSIVIDAD HASTA QUE EL DATO GENERADO
+        EN CASO QUE SEA IGUAL GENERA UNA
+        RECURSIVIDAD HASTA QUE EL DATO GENERADO
         SEA DIFERENTE A LA ENTRADA
-
         SALIDA = VALOR NUEVO DE MOVIMIENTO (INT)
     """
     mov_pasado = mov_fantasma2
-    mov_fantasma2 = random.randint(0,3)
+    mov_fantasma2 = random.randint(0, 3)
     if mov_pasado != mov_fantasma2:
         Fantasma2.handle_event(mov_fantasma2)
         print(' mov2 {}'.format(mov_fantasma2))
     else:
         variable_movimento_fantasma2(mov_pasado)
     return mov_fantasma2
+
 
 def variable_movimento_fantasma3(mov_fantasma3):
     """ FUNCION QUE GENERAR EL NUMERO PARA QUE PACMAN SE MUEVA
@@ -359,7 +359,7 @@ def variable_movimento_fantasma3(mov_fantasma3):
         SALIDA = VALOR NUEVO DE MOVIMIENTO (INT)
     """
     mov_pasado = mov_fantasma3
-    mov_fantasma3 = random.randint(0,3)
+    mov_fantasma3 = random.randint(0, 3)
     if mov_pasado != mov_fantasma3:
         Fantasma3.handle_event(mov_fantasma3)
         print(' mov2 {}'.format(mov_fantasma3))
@@ -373,7 +373,7 @@ def perdida():
         HAY QUE PRESIONAR Q PARA SALIR Y RETORNA AL MENU DEL JUEGO"""
     perdio = True
     imagen_gm = pygame.image.load('game_over.png')
-    game_over = pygame.transform.scale(imagen_gm,(400,300))
+    game_over = pygame.transform.scale(imagen_gm, (400, 300))
     pygame.mixer.music.load('pacman_death.wav')
     pygame.mixer.music.play(2)
     while perdio:
@@ -382,19 +382,15 @@ def perdida():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q: # Q cierra el juego
+                if event.key == pygame.K_q:  # Q cierra el juego
                     pygame.quit()
                     quit()
 
-
-
         ventana_juego.fill(pygame.Color('black'))
         texto2 = fuente1.render("PRESIONE Q PARA SALIR",
-        True, BLANCO)
+                                True, BLANCO)
         ventana_juego.blit(texto2, (200, 450))
         ventana_juego.blit(game_over, (120, 50))
-
-
 
         pygame.display.flip()
         pygame.display.update()
@@ -407,8 +403,7 @@ def pausa():
         Y PARA CONTINUAR JUGANDO HAY QUE PRESIONAR C"""
     pausado = True
     imagen_pausa = pygame.image.load('pausa.png')
-    pausa = pygame.transform.scale(imagen_pausa,(400,400))
-
+    pausa = pygame.transform.scale(imagen_pausa, (400, 400))
 
     pygame.mixer.music.load('pacman_intermission.wav')
     pygame.mixer.music.play(88888)
@@ -418,31 +413,28 @@ def pausa():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_c: # C para continuar
+                if event.key == pygame.K_c:  # C para continuar
                     pausado = False
-                elif event.key == pygame.K_q: # Q cierra el juego
+                elif event.key == pygame.K_q:  # Q cierra el juego
                     pygame.quit()
                     quit()
 
-
         ventana_juego.fill(pygame.Color('black'))
         texto = fuente1.render("PRESIONE C PARA CONTINUAR O Q PARA TERMINAR",
-        True, BLANCO)
+                            True, BLANCO)
         ventana_juego.blit(texto, (120, 400))
         ventana_juego.blit(pausa, (120, 0))
 
-
-
         pygame.display.flip()
         pygame.display.update()
+
 
 def menu_inicial():
     """FUNCION QUE MUESTRA EL MENU INICIAL DEL JUEGO
     """
     pausado = True
     imagen_pausa = pygame.image.load('inicio.png')
-    pausa = pygame.transform.scale(imagen_pausa,(400,400))
-
+    pausa = pygame.transform.scale(imagen_pausa, (400, 400))
 
     pygame.mixer.music.load('pacman_beginning.wav')
     pygame.mixer.music.play(88888)
@@ -452,23 +444,19 @@ def menu_inicial():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_c: # C para continuar
+                if event.key == pygame.K_c:  # C para continuar
                     pausado = False
-                elif event.key == pygame.K_q: # Q cierra el juego
+                elif event.key == pygame.K_q:  # Q cierra el juego
                     pygame.quit()
                     quit()
 
-
         ventana_juego.fill(pygame.Color('black'))
-        texto = fuente1.render("PRESIONE C PARA JUGAR",
-        True, BLANCO)
+        texto = fuente1.render("PRESIONE C PARA JUGAR", True, BLANCO)
         ventana_juego.blit(texto, (240, 350))
         texto2 = fuente1.render("PRESIONE  Q PARA SALIR",
-        True, BLANCO)
+                                True, BLANCO)
         ventana_juego.blit(texto2, (240, 370))
         ventana_juego.blit(pausa, (120, 0))
-
-
 
         pygame.display.flip()
         pygame.display.update()
@@ -479,7 +467,7 @@ def NIVEL2():
     """
     pausado = True
     imagen_pausa = pygame.image.load('index.png')
-    pausa = pygame.transform.scale(imagen_pausa,(400,400))
+    pausa = pygame.transform.scale(imagen_pausa, (400, 400))
 
     pygame.mixer.music.load('pacman_beginning.wav')
     pygame.mixer.music.play(88888)
@@ -489,17 +477,17 @@ def NIVEL2():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_c: # C para continuar
+                if event.key == pygame.K_c:  # C para continuar
                     pausado = False
                     return True
-                elif event.key == pygame.K_q: # Q cierra el juego
+                elif event.key == pygame.K_q:  # Q cierra el juego
                     pygame.quit()
                     quit()
         ventana_juego.fill(pygame.Color('black'))
         ventana_juego.blit(pausa, (120, 0))
         texto = fuente1.render(
         "PRESIONE C PARA CONTINUAR AL SIGUIENTE NIVEL O Q PARA TERMINAR",
-        True, BLUE)
+            True, BLUE)
         ventana_juego.blit(texto, (80, 400))
 
         pygame.display.flip()
@@ -507,7 +495,8 @@ def NIVEL2():
 
 
 def main(contador_comida, vidas_pacman, mov_fantasma1,
-        mov_fantasma2,mov_fantasma3, muros, food_special, comida, flag_manu):
+    mov_fantasma2,mov_fantasma3,
+            muros, food_special, comida, flag_manu):
     """ FUNCION PRINCIAL
         DONDE ESTA TODO EL LLAMADO DEL FUNCIOAMIENTO DEL JUEGO
 
@@ -521,23 +510,23 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         TODOS LOS NIVEL EJECUTAN ESTA FUNCION
     """
     game_over = False
-    reloj = pygame.time.Clock() # variable de tiempo, ejecucion del programa
+    reloj = pygame.time.Clock()  # variable de tiempo, ejecucion del programa
 
     event = None
     while game_over == False:
 
-        reloj.tick(FPS) # ajustando los FPS
+        reloj.tick(FPS)  # ajustando los FPS
         # EVENTO PARA QUE EL EXIT DE LA VENTANA FUNCIONE
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p :  #  si se preiosna p, abre pausa
+                if event.key == pygame.K_p:  # si se preiosna p, abre pausa
                     pausa()
         # CONFICION PARA IMPRIMIR EL MENU PRINCIAL
-        if flag_manu ==1:
-                menu_inicial()
-                flag_manu +=1
+        if flag_manu == 1:
+            menu_inicial()
+            flag_manu += 1
 
         # ACTUALIZACION EL MOVIMIENTO DE PACMAN
         if event != None:
@@ -546,26 +535,23 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         # IMPRIME LA PANTALLA CON EL FONDO NEGRO
         ventana_juego.fill(pygame.Color('black'))
 
-
         # imprimo las listas de sprite
         enemigo1.draw(ventana_juego)
         enemigo2.draw(ventana_juego)
         enemigo3.draw(ventana_juego)
         jugador.draw(ventana_juego)
 
-
         # ACTUALIZA LAS LISTAS DE SPRITE
         jugador.update()
         enemigo1.update()
         enemigo2.update()
 
-
         # funciones para crear el mapa
-        recorre_lista_muros(ventana_juego, muros,muro_nuevo)
+        recorre_lista_muros(ventana_juego, muros, muro_nuevo)
         recorre_lista_comida(ventana_juego, comida)
         recorre_lista_food_special(ventana_juego, food_special)
 
-        #imprime el texto de la comida
+        # imprime el texto de la comida
         ventana_juego.blit(texto, (100, 560))
 
         # imprime el contador de comida
@@ -573,14 +559,15 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         ventana_juego.blit(puntos, (250, 560))
 
         # IMPRIME LA VIDA EN IMAGENES
-        x =0
-        for imagen in range(0,vidas_pacman):
+        x = 0
+        for imagen in range(0, vidas_pacman):
             ventana_juego.blit(vida, (500+x, 560))
-            x+=17
+            x += 17
 
         # ELIMINA LA COMIDA CUANDO SE TOCAN
-        contador_comida = eliminar_comida(comida,contador_comida)
-        contador_comida, vidas_pacman = eliminar_food_especial(food_special,contador_comida, vidas_pacman)
+        contador_comida = eliminar_comida(comida, contador_comida)
+        contador_comida, vidas_pacman = eliminar_food_especial(
+            food_special, contador_comida, vidas_pacman)
 
         """ BANDERA PARA GENERAR EL PRIMER MOVIMENTO DE LOS FANTASMAS
             LUEGO LO HACE AUTOMATICO CON LAS COKICIONES CONTRA LOS MUROS
@@ -592,11 +579,8 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             Fantasma3.handle_event(mov_fantasma3)
             flag += 1
 
-
-
-
         # creo la colisiones entre grupos de sprite y quita vida
-        colision = pygame.sprite.spritecollide(pacman,enemigo1,False)
+        colision = pygame.sprite.spritecollide(pacman, enemigo1, False)
         if colision:
             if mov_fantasma1 == 0:
                 Fantasma1.rect.x -= 2
@@ -614,12 +598,12 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                 Fantasma1.rect.y += 2
                 mov_fantasma1 = 2
                 Fantasma1.handle_event(mov_fantasma1)
-            if(event != None):
+            if(event != None) :
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        pacman.rect.centerx  += 3
+                        pacman.rect.centerx += 3
                     if event.key == pygame.K_RIGHT:
-                        pacman.rect.centerx  -= 3
+                        pacman.rect.centerx -= 3
                     if event.key == pygame.K_UP:
                         pacman.rect.bottom += 3
                     if event.key == pygame.K_DOWN:
@@ -627,13 +611,13 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             pygame.mixer.music.load('pacman_death.wav')
             pygame.mixer.music.play(1)
 
-            vidas_pacman -=1
+            vidas_pacman -= 1
 
             # Fantasma1.image = pygame.image.load('2.png').convert()
             # Fantasma1.image.set_colorkey(NEGRO)
-            # Fantasma1.image = pygame.transform.scale(Fantasma1.image, (20, 20))
+# Fantasma1.image = pygame.transform.scale(Fantasma1.image, (20, 20))
 
-        colision = pygame.sprite.spritecollide(pacman,enemigo2,False)
+        colision = pygame.sprite.spritecollide(pacman, enemigo2, False)
         if colision:
             if mov_fantasma2 == 0:
                 Fantasma2.rect.x -= 2
@@ -651,12 +635,12 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                 Fantasma2.rect.y += 2
                 mov_fantasma2 = 2
                 Fantasma2.handle_event(mov_fantasma2)
-            if(event != None):
+            if(event != None) :
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        pacman.rect.centerx  += 3
+                        pacman.rect.centerx += 3
                     if event.key == pygame.K_RIGHT:
-                        pacman.rect.centerx  -= 3
+                        pacman.rect.centerx -= 3
                     if event.key == pygame.K_UP:
                         pacman.rect.bottom += 3
                     if event.key == pygame.K_DOWN:
@@ -664,9 +648,9 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             pygame.mixer.music.load('pacman_death.wav')
             pygame.mixer.music.play(1)
 
-            vidas_pacman -=1
+            vidas_pacman -= 1
 
-        colision = pygame.sprite.spritecollide(pacman,enemigo3,False)
+        colision = pygame.sprite.spritecollide(pacman, enemigo3, False)
         if colision:
             if mov_fantasma3 == 0:
                 Fantasma3.rect.x -= 2
@@ -684,32 +668,32 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                 Fantasma3.rect.y += 2
                 mov_fantasma3 = 2
                 Fantasma3.handle_event(mov_fantasma3)
-            if(event != None):
+            if(event != None) :
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        pacman.rect.centerx  += 3
+                        pacman.rect.centerx += 3
                     if event.key == pygame.K_RIGHT:
-                        pacman.rect.centerx  -= 3
+                        pacman.rect.centerx -= 3
                     if event.key == pygame.K_UP:
                         pacman.rect.bottom += 3
                     if event.key == pygame.K_DOWN:
                         pacman.rect.bottom -= 3
             pygame.mixer.music.load('pacman_death.wav')
             pygame.mixer.music.play(1)
-            vidas_pacman -=1
+            vidas_pacman -= 1
             # Fantasma2.image = pygame.image.load('2.png').convert()
             # Fantasma2.image.set_colorkey(NEGRO)
-            # Fantasma2.image = pygame.transform.scale(Fantasma2.image, (20, 20))
+# Fantasma2.image = pygame.transform.scale(Fantasma2.image, (20, 20))
 
-        #colision de pacman con el mapa
+        # colision de pacman con el mapa
         for muro in muros:
             if pacman.rect.colliderect(muro):
                 if(event != None):
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
-                            pacman.rect.centerx  += 2
+                            pacman.rect.centerx += 2
                         if event.key == pygame.K_RIGHT:
-                            pacman.rect.centerx  -= 2
+                            pacman.rect.centerx -= 2
                         if event.key == pygame.K_UP:
                             pacman.rect.bottom += 2
                         if event.key == pygame.K_DOWN:
@@ -749,8 +733,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                     Fantasma3.rect.y += 2
                 mov_fantasma3 = variable_movimento_fantasma3(mov_fantasma3)
 
-
-        #termina cuando la comida es 0 Y LLAMA LA NIVEL2
+        # termina cuando la comida es 0 Y LLAMA LA NIVEL2
         if contador_comida == 0:
             game_over = True
             return NIVEL2()
@@ -759,23 +742,19 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         if vidas_pacman == 0:
             perdida()
 
-
-
         jugador.update()
         enemigo1.update()
         enemigo2.update()
         pygame.display.flip()
         pygame.display.update()
 
-
     return
 
+
 # COLORES
-BLANCO= (255, 255, 255)
+BLANCO = (255, 255, 255)
 BLUE = (0, 0, 255)
 NEGRO = (0, 0, 0)
-
-
 
 # VARIABLES
 ancho_ventana = 600
@@ -787,28 +766,23 @@ clock = pygame.time.Clock()
 
 vidas_pacman = 3
 imagen_vida = pygame.image.load('pac.png')
-vida = pygame.transform.scale(imagen_vida,(15,15))
+vida = pygame.transform.scale(imagen_vida, (15, 15))
 
 jugador = pygame.sprite.Group()
 enemigo1 = pygame.sprite.Group()
 enemigo2 = pygame.sprite.Group()
 enemigo3 = pygame.sprite.Group()
 
-
-
 # genero el primer movimeinto
 mov_fantasma1 = 0
 mov_fantasma2 = 1
 mov_fantasma3 = 0
 
-
 #  llamo los objetos de los personajes
 pacman = Pacman()
 Fantasma1 = Fantasma1()
-Fantasma2=Fantasma2()
-Fantasma3=Fantasma3()
-
-
+Fantasma2 = Fantasma2()
+Fantasma3 = Fantasma3()
 
 #  los agrego a un grupo de sprite
 enemigo1.add(Fantasma1)
@@ -816,13 +790,11 @@ enemigo2.add(Fantasma2)
 enemigo3.add(Fantasma3)
 jugador.add(pacman)
 
-
-
 FPS = 60
-fuente1 = pygame.font.SysFont("segoe print",20)
+fuente1 = pygame.font.SysFont("segoe print", 20)
 texto = fuente1.render("COMIDA DISPONIBLE", True, BLANCO)
 imagen_muro = pygame.image.load('muro_1.png')
-muro_nuevo = pygame.transform.scale(imagen_muro,(20,20))
+muro_nuevo = pygame.transform.scale(imagen_muro, (20, 20))
 
 # MAPAS
 mapa = [
@@ -857,7 +829,7 @@ mapa = [
                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ]
 
-MAPA2 =[
+MAPA2 = [
                 "                              ",
                 "                              ",
                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -887,35 +859,33 @@ MAPA2 =[
 
 ]
 
-
 flag_manu = 1
 
 # llamar la funcion de contruir mapa 1 para que forme la listas
 muros, comida, contador_comida, food_special = construir_mapa(mapa)
 muros2, comida2, contador_comida2, food_special2 = construir_mapa(MAPA2)
 
-if(main(contador_comida, vidas_pacman, mov_fantasma1,mov_fantasma2,
- mov_fantasma3, muros, food_special,comida, flag_manu)):
+if( main( contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
+ mov_fantasma3, muros, food_special, comida, flag_manu)):
  mov_fantasma1 = 0
  mov_fantasma2 = 1
  mov_fantasma3 = 0
 
  # LES DA NUEVAS POSICIONES A LOS SPRITE EN CADA NIVEL
- pacman.rect.centerx  = 240
+ pacman.rect.centerx = 240
  pacman.rect.bottom = 280
 
- Fantasma1.rect.centerx  = 100
+ Fantasma1.rect.centerx = 100
  Fantasma1.rect.bottom = 80
 
- Fantasma2.rect.centerx  = 500
+ Fantasma2.rect.centerx = 500
  Fantasma2.rect.bottom = 80
 
- Fantasma3.rect.centerx  = 30
+ Fantasma3.rect.centerx = 30
  Fantasma3.rect.bottom = 400
-
 
  flag_manu = 2
 
  muros, comida, contador_comida, food_special = construir_mapa(MAPA2)
- main(contador_comida, vidas_pacman, mov_fantasma1,mov_fantasma2,
- mov_fantasma3, muros, food_special,comida, flag_manu)
+ main(contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
+ mov_fantasma3, muros, food_special, comida, flag_manu)
