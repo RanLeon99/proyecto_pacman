@@ -405,6 +405,7 @@ def pausa():
     pausado = True
     imagen_pausa = pygame.image.load('pausa.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
+    pygame.display.set_caption("PAUSA")
 
     pygame.mixer.music.load('pacman_intermission.wav')
     pygame.mixer.music.play(88888)
@@ -423,7 +424,9 @@ def pausa():
         ventana_juego.fill(pygame.Color('black'))
         texto = fuente1.render("PRESIONE C PARA CONTINUAR O Q PARA TERMINAR",
                             True, BLANCO)
-        ventana_juego.blit(texto, (120, 400))
+        ventana_juego.blit(texto, (120, 420))
+        texto2 = fuente1.render("PAUSA",True, BLANCO)
+        ventana_juego.blit(texto2, (280, 400))
         ventana_juego.blit(pausa, (120, 0))
 
         pygame.display.flip()
@@ -436,6 +439,7 @@ def menu_inicial():
     pausado = True
     imagen_pausa = pygame.image.load('inicio.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
+    pygame.display.set_caption("INCIO")
 
     pygame.mixer.music.load('pacman_beginning.wav')
     pygame.mixer.music.play(88888)
@@ -469,6 +473,7 @@ def NIVEL2():
     pausado = True
     imagen_pausa = pygame.image.load('index.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
+    pygame.display.set_caption("WIN")
 
     pygame.mixer.music.load('pacman_beginning.wav')
     pygame.mixer.music.play(88888)
@@ -514,6 +519,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
     reloj = pygame.time.Clock()  # variable de tiempo, ejecucion del programa
 
     event = None
+
     while game_over == False:
 
         reloj.tick(FPS)  # ajustando los FPS
