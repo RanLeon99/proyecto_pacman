@@ -22,8 +22,7 @@ class Pacman(pygame.sprite.Sprite):
 
 
 # FUNCION PARA LEER EL TECLADO, LAS FECHAS
-    def handle_event(self, event):
-
+    def handle_event(self,event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 self.rect.centerx -= 2
@@ -320,32 +319,60 @@ def pausa():
         pygame.display.flip()
         pygame.display.update()
 
-
-
-
-
-
-
-
-def NIVEL2():
+def menu_inicial():
     pausado = True
-    imagen_pausa = pygame.image.load('win1.png')
+    imagen_pausa = pygame.image.load('inicio.png')
     pausa = pygame.transform.scale(imagen_pausa,(400,400))
+
+
     pygame.mixer.music.load('pacman_beginning.wav')
     pygame.mixer.music.play(88888)
-    flag =1
     while pausado:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pausado = False
+                pygame.quit()
+                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c: # C para continuar
-                    main(contador_comida2, vidas_pacman, mov_fantasma1,
-                     mov_fantasma2, muros2, food_special2, comida2)
+                    pausado = False
                 elif event.key == pygame.K_q: # Q cierra el juego
                     pygame.quit()
                     quit()
 
+
+        ventana_juego.fill(pygame.Color('black'))
+        texto = fuente1.render("""PRESIONE C PARA JUGAR
+                                    Q PARA TERMINAR""",
+        True, BLANCO)
+        ventana_juego.blit(texto, (120, 400))
+        ventana_juego.blit(pausa, (120, 0))
+
+
+
+        pygame.display.flip()
+        pygame.display.update()
+
+
+def NIVEL2():
+    pausado = True
+    imagen_pausa = pygame.image.load('index.png')
+    pausa = pygame.transform.scale(imagen_pausa,(400,400))
+
+    pygame.mixer.music.load('pacman_beginning.wav')
+    pygame.mixer.music.play(88888)
+    while pausado:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c: # C para continuar
+                    pausado = False
+                    main(contador_comida2, vidas_pacman, mov_fantasma1, mov_fantasma2,
+                     mov_fantasma3, muros2, food_special2, comida2, flag_manu)
+                elif event.key == pygame.K_q: # Q cierra el juego
+                    pygame.quit()
+                    quit()
         ventana_juego.fill(pygame.Color('black'))
         ventana_juego.blit(pausa, (120, 0))
         texto = fuente1.render(
@@ -357,10 +384,8 @@ def NIVEL2():
         pygame.display.update()
 
 
-
-
 def main(contador_comida, vidas_pacman, mov_fantasma1,
-        mov_fantasma2,mov_fantasma3, muros, food_special, comida):
+        mov_fantasma2,mov_fantasma3, muros, food_special, comida, flag_manu):
     game_over = False
     reloj = pygame.time.Clock() # variable de tiempo, ejecucion del programa
 
@@ -375,6 +400,11 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p :  #  si se preiosna p, abre pausa
                     pausa()
+
+        if flag_manu ==1:
+                menu_inicial()
+                flag_manu +=1
+
 
         pacman.handle_event(event)
         ventana_juego.fill(pygame.Color('black'))
@@ -521,11 +551,6 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             pygame.mixer.music.load('pacman_death.wav')
             pygame.mixer.music.play(1)
             vidas_pacman -=1
-
-
-
-
-
             # Fantasma2.image = pygame.image.load('2.png').convert()
             # Fantasma2.image.set_colorkey(NEGRO)
             # Fantasma2.image = pygame.transform.scale(Fantasma2.image, (20, 20))
@@ -581,6 +606,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
 
         #termina cuando la comida es 0
         if contador_comida == 0:
+            game_over = True
             NIVEL2()
 
         if vidas_pacman == 0:
@@ -592,24 +618,15 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         pygame.display.flip()
         pygame.display.update()
 
-    pygame.quit ()
 
-
-
+    return
 
 # COLORES
-VERDE = (0, 255, 0)
 BLANCO= (255, 255, 255)
-RED=(255, 0, 0)
 BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
 NEGRO = (0, 0, 0)
 
 
-
-
-pygame.mixer.music.load('pacman_beginning.wav')
-pygame.mixer.music.play(8888888)
 
 # VARIABLES
 ancho_ventana = 600
@@ -617,6 +634,8 @@ alto_ventana = 600
 ventana_juego = pygame.display.set_mode((ancho_ventana, alto_ventana))
 pygame.display.set_caption("PACMAN")
 clock = pygame.time.Clock()
+
+
 vidas_pacman = 3
 imagen_vida = pygame.image.load('pac.png')
 vida = pygame.transform.scale(imagen_vida,(15,15))
@@ -656,7 +675,6 @@ fuente1 = pygame.font.SysFont("segoe print",20)
 texto = fuente1.render("COMIDA DISPONIBLE", True, BLANCO)
 imagen_muro = pygame.image.load('muro_1.png')
 muro_nuevo = pygame.transform.scale(imagen_muro,(20,20))
-
 
 # MAPAS
 mapa = [
@@ -720,25 +738,17 @@ MAPA2 =[
                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 
 ]
-# 600/20= columnas
-# 600/20= filas
 
-# COLORES
-VERDE = (0, 255, 0)
-BLANCO= (255, 255, 255)
-RED=(255, 0, 0)
-BLUE = (0, 0, 255)
-flag_niveles = 0
 
-# main
+flag_manu = 1
+flag_nivel1_ganado =0
+
+
 # llamar la funcion de construit mapa primero para que forme la listas
 muros, comida, contador_comida, food_special = construir_mapa(mapa)
 muros2, comida2, contador_comida2, food_special2 = construir_mapa(MAPA2)
 
 
-# main(contador_comida, vidas_pacman, mov_fantasma1,
-#     mov_fantasma2, mov_fantasma3, muros, food_special,comida)
 
-
-main(contador_comida2, vidas_pacman, mov_fantasma1,
- mov_fantasma2, mov_fantasma3, muros2, food_special2, comida2)
+main(contador_comida, vidas_pacman, mov_fantasma1,mov_fantasma2,
+ mov_fantasma3, muros, food_special,comida, flag_manu)
