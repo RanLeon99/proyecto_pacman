@@ -457,10 +457,10 @@ def menu_inicial():
 
         ventana_juego.fill(pygame.Color('black'))
         texto = fuente1.render("PRESIONE C PARA JUGAR", True, BLANCO)
-        ventana_juego.blit(texto, (240, 350))
+        ventana_juego.blit(texto, (210, 350))
         texto2 = fuente1.render("PRESIONE  Q PARA SALIR",
                                 True, BLANCO)
-        ventana_juego.blit(texto2, (240, 370))
+        ventana_juego.blit(texto2, (210, 370))
         ventana_juego.blit(pausa, (120, 0))
 
         pygame.display.flip()
