@@ -457,10 +457,10 @@ def menu_inicial():
 
         ventana_juego.fill(pygame.Color('black'))
         texto = fuente1.render("PRESIONE C PARA JUGAR", True, BLANCO)
-        ventana_juego.blit(texto, (210, 350))
+        ventana_juego.blit(texto, (230, 350))
         texto2 = fuente1.render("PRESIONE  Q PARA SALIR",
                                 True, BLANCO)
-        ventana_juego.blit(texto2, (210, 370))
+        ventana_juego.blit(texto2, (230, 370))
         ventana_juego.blit(pausa, (120, 0))
 
         pygame.display.flip()
@@ -471,7 +471,7 @@ def NIVEL2():
     """ FUNCION QUE SE EJECUTA AL GANAR UN NIVEL
     """
     pausado = True
-    imagen_pausa = pygame.image.load('index.png')
+    imagen_pausa = pygame.image.load('ganador.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
     pygame.display.set_caption("WIN")
 
@@ -490,11 +490,11 @@ def NIVEL2():
                     pygame.quit()
                     quit()
         ventana_juego.fill(pygame.Color('black'))
-        ventana_juego.blit(pausa, (120, 0))
+        ventana_juego.blit(pausa, (120, 20))
         texto = fuente1.render(
         "PRESIONE C PARA CONTINUAR AL SIGUIENTE NIVEL O Q PARA TERMINAR",
-            True, BLUE)
-        ventana_juego.blit(texto, (80, 400))
+            True, BLANCO)
+        ventana_juego.blit(texto, (70, 450))
 
         pygame.display.flip()
         pygame.display.update()
@@ -877,6 +877,33 @@ mapa = [
                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ]
 
+# mapa = [
+#
+#                 "                              ",
+#                 "                              ",
+#                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxfxxxxxxxxxxmxxxxxmx",
+#                 "xfxxxxxxxxxmxxxxxxxxxxmxxxxxfx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxfxxxxxxxxxxmxxxxxmx",
+#                 "xfxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+#                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# ]
+
 MAPA2 = [
                 "                              ",
                 "                              ",
@@ -891,7 +918,7 @@ MAPA2 = [
                 "xmxxxxxxxxxmxxxxxxxmxxxmxxxxmx",
                 "xmxxxxxxxxxmxxxxxxxmxxxmxxxxmx",
                 "xmxxxxxxxxxmxxxxxxxmxxxmxxxxmx",
-                "xmmmmxmmmmmmmmfmmmmmmmmmxmmmmx",
+                "xmmmmxmmmmmmmmmmmmmmmmmmxmmmmx",
                 "xxxxmxmxxmxxxxxxxxxxmxxmxmxxxx",
                 "xxxxmxmxxmxxxxxxxxxxmxxmxmxxxx",
                 "xxxxmxmxxmxxxxxxxxxxmxxmxmxxxx",
