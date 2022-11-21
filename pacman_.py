@@ -451,13 +451,16 @@ def pausa():
                     quit()
 
         ventana_juego.fill(pygame.Color('black'))
-        texto = fuente1.render(
-            "PRESIONE C PARA CONTINUAR O Q PARA TERMINAR",
-            True, BLANCO
-                                )
-        ventana_juego.blit(texto, (120, 420))
-        texto2 = fuente1.render("PAUSA", True, BLANCO)
-        ventana_juego.blit(texto2, (280, 400))
+
+        texto = fuente1.render("PRESIONE C PARA JUGAR", True, BLANCO)
+        ventana_juego.blit(texto, (190, 490))
+
+        texto2 = fuente1.render("PRESIONE  Q PARA SALIR",
+                                True, BLANCO)
+        ventana_juego.blit(texto2, (190, 460))
+
+        texto3 = fuente1.render("JUEGO PAUSADO", True, BLANCO)
+        ventana_juego.blit(texto3, (218, 400))
         ventana_juego.blit(pausa, (120, 0))
 
         pygame.display.flip()
@@ -488,10 +491,10 @@ def menu_inicial():
 
         ventana_juego.fill(pygame.Color('black'))
         texto = fuente1.render("PRESIONE C PARA JUGAR", True, BLANCO)
-        ventana_juego.blit(texto, (230, 350))
-        texto2 = fuente1.render("PRESIONE  Q PARA SALIR",
+        ventana_juego.blit(texto, (180, 350))
+        texto2 = fuente1.render("PRESIONE Q PARA SALIR",
                                 True, BLANCO)
-        ventana_juego.blit(texto2, (230, 370))
+        ventana_juego.blit(texto2, (180, 370))
         ventana_juego.blit(pausa, (120, 0))
 
         pygame.display.flip()
@@ -522,10 +525,11 @@ def NIVEL2():
                     quit()
         ventana_juego.fill(pygame.Color('black'))
         ventana_juego.blit(pausa, (120, 20))
-        texto = fuente1.render(
-            "PRESIONE C PARA CONTINUAR AL SIGUIENTE NIVEL O Q PARA TERMINAR",
-            True, BLANCO)
-        ventana_juego.blit(texto, (70, 450))
+        texto = fuente1.render("PRESIONE C PARA JUGAR", True, BLANCO)
+        ventana_juego.blit(texto, (180, 470))
+        texto2 = fuente1.render("PRESIONE  Q PARA SALIR",
+                                True, BLANCO)
+        ventana_juego.blit(texto2, (180, 440))
 
         pygame.display.flip()
         pygame.display.update()
@@ -628,15 +632,15 @@ def main(
         # SI TIENE PODER, CAMBIA DE COLOR A LOS FANTASMAS
         if flag_mood_muerte is True:
 
-            Fantasma1.image = pygame.image.load('powerup.png').convert()
+            Fantasma1.image = imagen_fantasmas_dead
             Fantasma1.image.set_colorkey(NEGRO)
             Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
 
-            Fantasma2.image = pygame.image.load('powerup.png').convert()
+            Fantasma2.image = imagen_fantasmas_dead
             Fantasma2.image.set_colorkey(NEGRO)
             Fantasma2.image = pygame.transform.scale(Fantasma2.image, (15, 15))
 
-            Fantasma3.image = pygame.image.load('powerup.png').convert()
+            Fantasma3.image = imagen_fantasmas_dead
             Fantasma3.image.set_colorkey(NEGRO)
             Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
 
@@ -890,9 +894,10 @@ enemigo3.add(Fantasma3)
 jugador.add(pacman)
 
 FPS = 60
-fuente1 = pygame.font.SysFont("segoe print", 20)
+fuente1 = pygame.font.SysFont("segoe print", 25)
 texto = fuente1.render("COMIDA DISPONIBLE", True, BLANCO)
 imagen_muro = pygame.image.load('muro_1.png')
+imagen_fantasmas_dead = pygame.image.load('powerup.png').convert()
 muro_nuevo = pygame.transform.scale(imagen_muro, (20, 20))
 
 # MAPAS
