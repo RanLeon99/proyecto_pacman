@@ -279,8 +279,8 @@ def eliminar_comida(comida, contador_comida):
 
 
 def eliminar_food_especial(food_special, contador_comida,
-                            vidas_pacman, flag_mood_muerte,
-                            contador_modo_dead):
+                           vidas_pacman, flag_mood_muerte,
+                           contador_modo_dead):
     """ FUNCION ENCARAGDA DE VERIFICAR SI PACMAN CHOCA CON UNA COMIDA ESPECIAL
         PARA QUE ESTA SEA ELIMINADA
         Y ACTUALIZA EL CONTADOR DE COMIDA
@@ -357,7 +357,8 @@ def variable_movimento_fantasma3(mov_fantasma3):
 
         ENTRADA = VALOR ACTUAL DEL MOVIMIENTO DE PACMAN (INT)
         SE GUARDA ESTA ENTRADA PARA QUE EL VALOR NUEVO NO SEA IGUAL A ESTE
-        EN CASO QUE SEA IGUAL GENERA UNA RECURSIVIDAD HASTA QUE EL DATO GENERADO
+        EN CASO QUE SEA IGUAL GENERA UNA
+        RECURSIVIDAD HASTA QUE EL DATO GENERADO
         SEA DIFERENTE A LA ENTRADA
 
         SALIDA = VALOR NUEVO DE MOVIMIENTO (INT)
@@ -425,10 +426,12 @@ def pausa():
                     quit()
 
         ventana_juego.fill(pygame.Color('black'))
-        texto = fuente1.render("PRESIONE C PARA CONTINUAR O Q PARA TERMINAR",
-                            True, BLANCO)
+        texto = fuente1.render(
+            "PRESIONE C PARA CONTINUAR O Q PARA TERMINAR",
+            True, BLANCO
+                                )
         ventana_juego.blit(texto, (120, 420))
-        texto2 = fuente1.render("PAUSA",True, BLANCO)
+        texto2 = fuente1.render("PAUSA", True, BLANCO)
         ventana_juego.blit(texto2, (280, 400))
         ventana_juego.blit(pausa, (120, 0))
 
@@ -495,7 +498,7 @@ def NIVEL2():
         ventana_juego.fill(pygame.Color('black'))
         ventana_juego.blit(pausa, (120, 20))
         texto = fuente1.render(
-        "PRESIONE C PARA CONTINUAR AL SIGUIENTE NIVEL O Q PARA TERMINAR",
+            "PRESIONE C PARA CONTINUAR AL SIGUIENTE NIVEL O Q PARA TERMINAR",
             True, BLANCO)
         ventana_juego.blit(texto, (70, 450))
 
@@ -503,10 +506,14 @@ def NIVEL2():
         pygame.display.update()
 
 
-def main(contador_comida, vidas_pacman, mov_fantasma1,
-    mov_fantasma2,mov_fantasma3,
-            muros, food_special, comida, flag_manu, flag_mood_muerte, contador_modo_dead):
-    """ FUNCION PRINCIAL
+def main(
+            contador_comida, vidas_pacman, mov_fantasma1,
+            mov_fantasma2, mov_fantasma3,
+            muros, food_special, comida, flag_manu,
+            flag_mood_muerte, contador_modo_dead
+        ):
+    """
+        FUNCION PRINCIAL
         DONDE ESTA TODO EL LLAMADO DEL FUNCIOAMIENTO DEL JUEGO
 
         ENTRADAS = INT ( COTADOR DE COMIDA Y ESPECIAL, VIDAS DE PACMAN
@@ -523,7 +530,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
 
     event = None
 
-    while game_over == False:
+    while game_over is False:
 
         reloj.tick(FPS)  # ajustando los FPS
         # EVENTO PARA QUE EL EXIT DE LA VENTANA FUNCIONE
@@ -539,7 +546,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             flag_manu += 1
 
         # ACTUALIZACION EL MOVIMIENTO DE PACMAN
-        if event != None:
+        if event is not None:
             pacman.handle_event(event)
 
         # IMPRIME LA PANTALLA CON EL FONDO NEGRO
@@ -575,11 +582,13 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             x += 17
         # ELIMINA LA COMIDA CUANDO SE TOCAN
         contador_comida = eliminar_comida(comida, contador_comida)
-        contador_comida, vidas_pacman, flag_mood_muerte, contador_modo_dead = eliminar_food_especial(
-            food_special, contador_comida, vidas_pacman, flag_mood_muerte, contador_modo_dead)
+        (contador_comida, vidas_pacman,
+         flag_mood_muerte, contador_modo_dead) = eliminar_food_especial(
+            food_special, contador_comida,
+             vidas_pacman, flag_mood_muerte, contador_modo_dead)
 
         # SI TIENE PODER, CAMBIA DE COLOR A LOS FANTASMAS
-        if flag_mood_muerte == True :
+        if flag_mood_muerte is True:
 
             Fantasma1.image = pygame.image.load('powerup.png').convert()
             Fantasma1.image.set_colorkey(NEGRO)
@@ -593,8 +602,8 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             Fantasma3.image.set_colorkey(NEGRO)
             Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
 
-
-        """ BANDERA PARA GENERAR EL PRIMER MOVIMENTO DE LOS FANTASMAS
+        """
+            BANDERA PARA GENERAR EL PRIMER MOVIMENTO DE LOS FANTASMAS
             LUEGO LO HACE AUTOMATICO CON LAS COLICIONES CONTRA LOS MUROS
         """
         flag = 0
@@ -607,7 +616,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         # creo la colisiones entre grupos de sprite y quita vida
         # VERIFICA SI EL MOOD FANTAS DEAD ESTE APAGADO
         # SI ESTA ACTIVADO NO GENERA LAS COLISIONES
-        if flag_mood_muerte == False :
+        if flag_mood_muerte is False:
             colision = pygame.sprite.spritecollide(pacman, enemigo1, False)
             if colision:
                 if mov_fantasma1 == 0:
@@ -626,7 +635,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                     Fantasma1.rect.y += 2
                     mov_fantasma1 = 2
                     Fantasma1.handle_event(mov_fantasma1)
-                if(event != None) :
+                if (event is not None):
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
                             pacman.rect.centerx += 3
@@ -641,7 +650,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
 
                 vidas_pacman -= 1
 
-        if flag_mood_muerte == False :
+        if flag_mood_muerte is False:
             colision = pygame.sprite.spritecollide(pacman, enemigo2, False)
             if colision:
                 if mov_fantasma2 == 0:
@@ -660,7 +669,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                     Fantasma2.rect.y += 2
                     mov_fantasma2 = 2
                     Fantasma2.handle_event(mov_fantasma2)
-                if(event != None) :
+                if (event is not None):
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
                             pacman.rect.centerx += 3
@@ -675,7 +684,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
 
                 vidas_pacman -= 1
 
-        if flag_mood_muerte == False :
+        if flag_mood_muerte is False:
             colision = pygame.sprite.spritecollide(pacman, enemigo3, False)
             if colision:
                 if mov_fantasma3 == 0:
@@ -694,7 +703,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                     Fantasma3.rect.y += 2
                     mov_fantasma3 = 2
                     Fantasma3.handle_event(mov_fantasma3)
-                if(event != None) :
+                if (event is not None):
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
                             pacman.rect.centerx += 3
@@ -711,7 +720,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         # colision de pacman con el mapa
         for muro in muros:
             if pacman.rect.colliderect(muro):
-                if(event != None):
+                if (event is not None):
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
                             pacman.rect.centerx += 2
@@ -757,7 +766,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
                 mov_fantasma3 = variable_movimento_fantasma3(mov_fantasma3)
 
         # CONDICION PARA DESACTIR EL PODER
-        if flag_mood_muerte == True:
+        if flag_mood_muerte is True:
             contador_modo_dead += 1
             print(contador_modo_dead)
             if contador_modo_dead >= 200:
@@ -766,7 +775,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
 
         # VUELVE A LA NORMALIDAD LOS FANTASMAS
         if contador_modo_dead == 200:
-            flag_mood_muerte == False
+            flag_mood_muerte = False
             Fantasma1.image = pygame.image.load('fana.png').convert()
             Fantasma1.image.set_colorkey(NEGRO)
             Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
@@ -782,7 +791,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
 
         # NORMALIZANDO LAS BANDERAS DEL PODER
         if contador_modo_dead >= 200:
-            flag_mood_muerte == False
+            flag_mood_muerte = False
             contador_modo_dead = 0
 
         # termina cuando la comida es 0 Y LLAMA LA NIVEL2
@@ -946,44 +955,46 @@ contador_modo_dead = 0
 muros, comida, contador_comida, food_special = construir_mapa(mapa)
 muros2, comida2, contador_comida2, food_special2 = construir_mapa(MAPA2)
 
-if( main( contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
- mov_fantasma3, muros, food_special, comida, flag_manu, flag_mood_muerte, contador_modo_dead)):
- mov_fantasma1 = 0
- mov_fantasma2 = 1
- mov_fantasma3 = 0
+if (main(
+        contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
+        mov_fantasma3, muros, food_special, comida, flag_manu,
+        flag_mood_muerte, contador_modo_dead)):
 
- # LES DA NUEVAS POSICIONES A LOS SPRITE EN CADA NIVEL
- pacman.rect.centerx = 240
- pacman.rect.bottom = 280
+    mov_fantasma1 = 0
+    mov_fantasma2 = 1
+    mov_fantasma3 = 0
 
- Fantasma1.rect.centerx = 100
- Fantasma1.rect.bottom = 80
+    # LES DA NUEVAS POSICIONES A LOS SPRITE EN CADA NIVEL
+    pacman.rect.centerx = 240
+    pacman.rect.bottom = 280
 
- Fantasma2.rect.centerx = 500
- Fantasma2.rect.bottom = 80
+    Fantasma1.rect.centerx = 100
+    Fantasma1.rect.bottom = 80
 
- Fantasma3.rect.centerx = 30
- Fantasma3.rect.bottom = 400
+    Fantasma2.rect.centerx = 500
+    Fantasma2.rect.bottom = 80
 
- flag_manu = 2
- flag_mood_muerte = False
- contador_modo_dead = 0
+    Fantasma3.rect.centerx = 30
+    Fantasma3.rect.bottom = 400
 
+    flag_manu = 2
+    flag_mood_muerte = False
+    contador_modo_dead = 0
 
- Fantasma1.image = pygame.image.load('fana.png').convert()
- Fantasma1.image.set_colorkey(NEGRO)
- Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
+    Fantasma1.image = pygame.image.load('fana.png').convert()
+    Fantasma1.image.set_colorkey(NEGRO)
+    Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
 
- Fantasma2.image = pygame.image.load('fantaa.png').convert()
- Fantasma2.image.set_colorkey(NEGRO)
- Fantasma2.image = pygame.transform.scale(Fantasma2.image, (15, 15))
+    Fantasma2.image = pygame.image.load('fantaa.png').convert()
+    Fantasma2.image.set_colorkey(NEGRO)
+    Fantasma2.image = pygame.transform.scale(Fantasma2.image, (15, 15))
 
- Fantasma3.image = pygame.image.load('azul.png').convert()
- Fantasma3.image.set_colorkey(NEGRO)
- Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
+    Fantasma3.image = pygame.image.load('azul.png').convert()
+    Fantasma3.image.set_colorkey(NEGRO)
+    Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
 
-
-
- muros, comida, contador_comida, food_special = construir_mapa(MAPA2)
- main(contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
- mov_fantasma3, muros, food_special, comida, flag_manu, flag_mood_muerte,contador_modo_dead)
+    muros, comida, contador_comida, food_special = construir_mapa(MAPA2)
+    main(
+        contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
+        mov_fantasma3, muros, food_special, comida, flag_manu,
+        flag_mood_muerte, contador_modo_dead)
