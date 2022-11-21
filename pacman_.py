@@ -373,6 +373,31 @@ def variable_movimento_fantasma3(mov_fantasma3):
     return mov_fantasma3
 
 
+def movmiento_pacma(direccion_pacman):
+    """
+        ROTA LA IMAGEN DEPENDIENDO LA DIRECCION DE PACMAN
+    """
+    if direccion_pacman == 0:  # derecha
+        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image.set_colorkey(NEGRO)
+        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
+    elif direccion_pacman == 1:  # IZQUIERDA
+        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image.set_colorkey(NEGRO)
+        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
+        pacman.image = pygame.transform.rotate(pacman.image, 180)
+    elif direccion_pacman == 2:  # ARRIBA
+        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image.set_colorkey(NEGRO)
+        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
+        pacman.image = pygame.transform.rotate(pacman.image, 90)
+    elif direccion_pacman == 3:  # ABAJO
+        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image.set_colorkey(NEGRO)
+        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
+        pacman.image = pygame.transform.rotate(pacman.image, 270)
+
+
 def perdida():
     """ FUNCION ENCARGARDA PARA MOSTRAR LA PANTALLA DE GAME game_over
         HAY QUE PRESIONAR Q PARA SALIR Y RETORNA AL MENU DEL JUEGO"""
@@ -510,7 +535,7 @@ def main(
             contador_comida, vidas_pacman, mov_fantasma1,
             mov_fantasma2, mov_fantasma3,
             muros, food_special, comida, flag_manu,
-            flag_mood_muerte, contador_modo_dead
+            flag_mood_muerte, contador_modo_dead, direccion_pacman
         ):
     """
         FUNCION PRINCIAL
@@ -540,6 +565,19 @@ def main(
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:  # si se preiosna p, abre pausa
                     pausa()
+                elif event.key == pygame.K_LEFT:
+                    direccion_pacman = 1
+                    movmiento_pacma(direccion_pacman)
+                elif event.key == pygame.K_RIGHT:
+                    direccion_pacman = 0
+                    movmiento_pacma(direccion_pacman)
+                elif event.key == pygame.K_UP:
+                    direccion_pacman = 2
+                    movmiento_pacma(direccion_pacman)
+                elif event.key == pygame.K_DOWN:
+                    direccion_pacman = 3
+                    movmiento_pacma(direccion_pacman)
+
         # CONFICION PARA IMPRIMIR EL MENU PRINCIAL
         if flag_manu == 1:
             menu_inicial()
@@ -950,6 +988,7 @@ MAPA2 = [
 flag_manu = 1
 flag_mood_muerte = False
 contador_modo_dead = 0
+direccion_pacman = 0
 
 # llamar la funcion de contruir mapa 1 para que forme la listas
 muros, comida, contador_comida, food_special = construir_mapa(mapa)
@@ -958,7 +997,7 @@ muros2, comida2, contador_comida2, food_special2 = construir_mapa(MAPA2)
 if (main(
         contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
         mov_fantasma3, muros, food_special, comida, flag_manu,
-        flag_mood_muerte, contador_modo_dead)):
+        flag_mood_muerte, contador_modo_dead, direccion_pacman)):
 
     mov_fantasma1 = 0
     mov_fantasma2 = 1
@@ -980,6 +1019,7 @@ if (main(
     flag_manu = 2
     flag_mood_muerte = False
     contador_modo_dead = 0
+    direccion_pacman = 0
 
     Fantasma1.image = pygame.image.load('fana.png').convert()
     Fantasma1.image.set_colorkey(NEGRO)
@@ -997,4 +1037,4 @@ if (main(
     main(
         contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
         mov_fantasma3, muros, food_special, comida, flag_manu,
-        flag_mood_muerte, contador_modo_dead)
+        flag_mood_muerte, contador_modo_dead, direccion_pacman)
