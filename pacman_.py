@@ -611,11 +611,11 @@ def main(
         recorre_lista_food_special(ventana_juego, food_special)
 
         # imprime el texto de la comida
-        ventana_juego.blit(texto, (100, 560))
+        ventana_juego.blit(texto, (90, 530))
 
         # imprime el contador de comida
         puntos = fuente1.render(str(contador_comida), True, BLANCO)
-        ventana_juego.blit(puntos, (250, 560))
+        ventana_juego.blit(puntos, (280, 530))
 
         # IMPRIME LA VIDA EN IMAGENES
         x = 0
@@ -815,6 +815,15 @@ def main(
                 flag_mood_muerte = False
                 contador_modo_dead = 200
 
+        tiempo_poder = fuente1.render("TIEMPO PODER ", True, BLANCO)
+        ventana_juego.blit(tiempo_poder, (10, 580))
+        # DIBUJA EL INDICADOR DEL PODER
+        pygame.draw.rect(ventana_juego, BLANCO, (150, 580, 200, 20))
+        pygame.draw.rect(
+                            ventana_juego, BLUE,
+                            (150, 580, contador_modo_dead, 20)
+                        )
+
         # VUELVE A LA NORMALIDAD LOS FANTASMAS
         if contador_modo_dead == 200:
             flag_mood_muerte = False
@@ -895,7 +904,7 @@ jugador.add(pacman)
 
 FPS = 60
 fuente1 = pygame.font.SysFont("segoe print", 25)
-texto = fuente1.render("COMIDA DISPONIBLE", True, BLANCO)
+texto = fuente1.render("COMIDA DISPONIBLE: ", True, BLANCO)
 imagen_muro = pygame.image.load('muro_1.png')
 imagen_fantasmas_dead = pygame.image.load('powerup.png').convert()
 muro_nuevo = pygame.transform.scale(imagen_muro, (20, 20))
