@@ -278,7 +278,9 @@ def eliminar_comida(comida, contador_comida):
     return contador_comida
 
 
-def eliminar_food_especial(food_special, contador_comida, vidas_pacman, flag_mood_muerte):
+def eliminar_food_especial(food_special, contador_comida,
+                            vidas_pacman, flag_mood_muerte,
+                            contador_modo_dead):
     """ FUNCION ENCARAGDA DE VERIFICAR SI PACMAN CHOCA CON UNA COMIDA ESPECIAL
         PARA QUE ESTA SEA ELIMINADA
         Y ACTUALIZA EL CONTADOR DE COMIDA
@@ -296,6 +298,7 @@ def eliminar_food_especial(food_special, contador_comida, vidas_pacman, flag_moo
                                     v_food_special.centery):
             food_special.remove(v_food_special)
             flag_mood_muerte = True
+            contador_modo_dead = 0
             # VA RESTANDO LA COMIDA EN EL CONTADOR
             contador_comida -= 1
             # SONIDO ESPECIAL FOOD
@@ -305,7 +308,7 @@ def eliminar_food_especial(food_special, contador_comida, vidas_pacman, flag_moo
                 pass
             else:
                 vidas_pacman += 1
-    return contador_comida, vidas_pacman, flag_mood_muerte
+    return contador_comida, vidas_pacman, flag_mood_muerte, contador_modo_dead
 
 
 def variable_movimento_fantasma1(mov_fantasma1):
@@ -572,8 +575,8 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
             x += 17
         # ELIMINA LA COMIDA CUANDO SE TOCAN
         contador_comida = eliminar_comida(comida, contador_comida)
-        contador_comida, vidas_pacman, flag_mood_muerte = eliminar_food_especial(
-            food_special, contador_comida, vidas_pacman, flag_mood_muerte)
+        contador_comida, vidas_pacman, flag_mood_muerte, contador_modo_dead = eliminar_food_especial(
+            food_special, contador_comida, vidas_pacman, flag_mood_muerte, contador_modo_dead)
 
         # SI TIENE PODER, CAMBIA DE COLOR A LOS FANTASMAS
         if flag_mood_muerte == True :
@@ -756,6 +759,7 @@ def main(contador_comida, vidas_pacman, mov_fantasma1,
         # CONDICION PARA DESACTIR EL PODER
         if flag_mood_muerte == True:
             contador_modo_dead += 1
+            print(contador_modo_dead)
             if contador_modo_dead >= 200:
                 flag_mood_muerte = False
                 contador_modo_dead = 200
