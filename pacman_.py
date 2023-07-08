@@ -16,7 +16,7 @@ class Pacman(pygame.sprite.Sprite):
         LE DA POSICION INICAL DENTRO DE LA VENTANA
         """
         super().__init__()
-        self.image = pygame.image.load('2.png').convert()
+        self.image = pygame.image.load('imagenes/2.png').convert()
         self.image.set_colorkey(NEGRO)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.rect = self.image.get_rect()
@@ -49,7 +49,7 @@ class Fantasma1(pygame.sprite.Sprite):
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.image = pygame.image.load('fana.png').convert()
+        self.image = pygame.image.load('imagenes/fana.png').convert()
         self.image.set_colorkey(NEGRO)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.rect = self.image.get_rect()
@@ -87,7 +87,7 @@ class Fantasma2(pygame.sprite.Sprite):
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.image = pygame.image.load('fantaa.png').convert()
+        self.image = pygame.image.load('imagenes/fantaa.png').convert()
         self.image.set_colorkey(NEGRO)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.rect = self.image.get_rect()
@@ -125,7 +125,7 @@ class Fantasma3(pygame.sprite.Sprite):
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.image = pygame.image.load('azul.png').convert()
+        self.image = pygame.image.load('imagenes/azul.png').convert()
         self.image.set_colorkey(NEGRO)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.rect = self.image.get_rect()
@@ -175,7 +175,7 @@ def dibuja_food_special(superficie, rectangulo):
     SUPERFICIE = VENTANA DONDE LO IMPRIME
     RECTACGULO = POSICION EN LA VENTANA (X,Y)
     """
-    imagen_food = pygame.image.load('food.png')
+    imagen_food = pygame.image.load('imagenes/food.png')
     food = pygame.transform.scale(imagen_food, (20, 20))
     superficie.blit(food, rectangulo)
 
@@ -271,7 +271,7 @@ def eliminar_comida(comida, contador_comida):
         if pacman.rect.collidepoint(v_comida.centerx, v_comida.centery):
             comida.remove(v_comida)
             # SOLINO FOOD
-            pygame.mixer.music.load('pacman_chomp.wav')
+            pygame.mixer.music.load('sonidos/pacman_chomp.wav')
             pygame.mixer.music.play()
             # VA RESTANDO LA COMIDA
             contador_comida -= 1
@@ -302,7 +302,7 @@ def eliminar_food_especial(food_special, contador_comida,
             # VA RESTANDO LA COMIDA EN EL CONTADOR
             contador_comida -= 1
             # SONIDO ESPECIAL FOOD
-            pygame.mixer.music.load('pacman_eatfruit.wav')
+            pygame.mixer.music.load('sonidos/pacman_eatfruit.wav')
             pygame.mixer.music.play()
             if vidas_pacman == 5:  # MAXIMO DE VIDAS = 5
                 pass
@@ -378,21 +378,21 @@ def movmiento_pacma(direccion_pacman):
         ROTA LA IMAGEN DEPENDIENDO LA DIRECCION DE PACMAN
     """
     if direccion_pacman == 0:  # derecha
-        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image = pygame.image.load('imagenes/2.png').convert()
         pacman.image.set_colorkey(NEGRO)
         pacman.image = pygame.transform.scale(pacman.image, (15, 15))
     elif direccion_pacman == 1:  # IZQUIERDA
-        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image = pygame.image.load('imagenes/2.png').convert()
         pacman.image.set_colorkey(NEGRO)
         pacman.image = pygame.transform.scale(pacman.image, (15, 15))
         pacman.image = pygame.transform.rotate(pacman.image, 180)
     elif direccion_pacman == 2:  # ARRIBA
-        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image = pygame.image.load('imagenes/2.png').convert()
         pacman.image.set_colorkey(NEGRO)
         pacman.image = pygame.transform.scale(pacman.image, (15, 15))
         pacman.image = pygame.transform.rotate(pacman.image, 90)
     elif direccion_pacman == 3:  # ABAJO
-        pacman.image = pygame.image.load('2.png').convert()
+        pacman.image = pygame.image.load('imagenes/2.png').convert()
         pacman.image.set_colorkey(NEGRO)
         pacman.image = pygame.transform.scale(pacman.image, (15, 15))
         pacman.image = pygame.transform.rotate(pacman.image, 270)
@@ -402,9 +402,9 @@ def perdida():
     """ FUNCION ENCARGARDA PARA MOSTRAR LA PANTALLA DE GAME game_over
         HAY QUE PRESIONAR Q PARA SALIR Y RETORNA AL MENU DEL JUEGO"""
     perdio = True
-    imagen_gm = pygame.image.load('game_over.png')
+    imagen_gm = pygame.image.load('imagenes/game_over.png')
     game_over = pygame.transform.scale(imagen_gm, (400, 300))
-    pygame.mixer.music.load('pacman_death.wav')
+    pygame.mixer.music.load('sonidos/pacman_death.wav')
     pygame.mixer.music.play(2)
     while perdio:
         for event in pygame.event.get():
@@ -432,11 +432,11 @@ def pausa():
         PARA SALIR DEL JUEGO HAY QUE PRESIONAR Q
         Y PARA CONTINUAR JUGANDO HAY QUE PRESIONAR C"""
     pausado = True
-    imagen_pausa = pygame.image.load('pausa.png')
+    imagen_pausa = pygame.image.load('imagenes/pausa.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
     pygame.display.set_caption("PAUSA")
 
-    pygame.mixer.music.load('pacman_intermission.wav')
+    pygame.mixer.music.load('sonidos/pacman_intermission.wav')
     pygame.mixer.music.play(88888)
     while pausado:
         for event in pygame.event.get():
@@ -471,11 +471,11 @@ def menu_inicial():
     """FUNCION QUE MUESTRA EL MENU INICIAL DEL JUEGO
     """
     pausado = True
-    imagen_pausa = pygame.image.load('inicio.png')
+    imagen_pausa = pygame.image.load('imagenes/inicio.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
     pygame.display.set_caption("INCIO")
 
-    pygame.mixer.music.load('pacman_beginning.wav')
+    pygame.mixer.music.load('sonidos/pacman_beginning.wav')
     pygame.mixer.music.play(88888)
     while pausado:
         for event in pygame.event.get():
@@ -505,11 +505,11 @@ def NIVEL2():
     """ FUNCION QUE SE EJECUTA AL GANAR UN NIVEL
     """
     pausado = True
-    imagen_pausa = pygame.image.load('ganador.png')
+    imagen_pausa = pygame.image.load('imagenes/ganador.png')
     pausa = pygame.transform.scale(imagen_pausa, (400, 400))
     pygame.display.set_caption("WIN")
 
-    pygame.mixer.music.load('pacman_beginning.wav')
+    pygame.mixer.music.load('sonidos/pacman_beginning.wav')
     pygame.mixer.music.play(88888)
     while pausado:
         for event in pygame.event.get():
@@ -687,7 +687,7 @@ def main(
                             pacman.rect.bottom += 3
                         if event.key == pygame.K_DOWN:
                             pacman.rect.bottom -= 3
-                pygame.mixer.music.load('pacman_death.wav')
+                pygame.mixer.music.load('sonidos/pacman_death.wav')
                 pygame.mixer.music.play(1)
 
                 vidas_pacman -= 1
@@ -721,7 +721,7 @@ def main(
                             pacman.rect.bottom += 3
                         if event.key == pygame.K_DOWN:
                             pacman.rect.bottom -= 3
-                pygame.mixer.music.load('pacman_death.wav')
+                pygame.mixer.music.load('sonidos/pacman_death.wav')
                 pygame.mixer.music.play(1)
 
                 vidas_pacman -= 1
@@ -755,7 +755,7 @@ def main(
                             pacman.rect.bottom += 3
                         if event.key == pygame.K_DOWN:
                             pacman.rect.bottom -= 3
-                pygame.mixer.music.load('pacman_death.wav')
+                pygame.mixer.music.load('sonidos/pacman_death.wav')
                 pygame.mixer.music.play(1)
                 vidas_pacman -= 1
 
@@ -827,15 +827,15 @@ def main(
         # VUELVE A LA NORMALIDAD LOS FANTASMAS
         if contador_modo_dead == 200:
             flag_mood_muerte = False
-            Fantasma1.image = pygame.image.load('fana.png').convert()
+            Fantasma1.image = pygame.image.load('imagenes/fana.png').convert()
             Fantasma1.image.set_colorkey(NEGRO)
             Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
 
-            Fantasma2.image = pygame.image.load('fantaa.png').convert()
+            Fantasma2.image = pygame.image.load('imagenes/fantaa.png').convert()
             Fantasma2.image.set_colorkey(NEGRO)
             Fantasma2.image = pygame.transform.scale(Fantasma2.image, (15, 15))
 
-            Fantasma3.image = pygame.image.load('azul.png').convert()
+            Fantasma3.image = pygame.image.load('imagenes/azul.png').convert()
             Fantasma3.image.set_colorkey(NEGRO)
             Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
             contador_modo_dead = 0
@@ -877,7 +877,7 @@ clock = pygame.time.Clock()
 
 
 vidas_pacman = 3
-imagen_vida = pygame.image.load('pac.png')
+imagen_vida = pygame.image.load('imagenes/pac.png')
 vida = pygame.transform.scale(imagen_vida, (15, 15))
 
 jugador = pygame.sprite.Group()
@@ -905,69 +905,38 @@ jugador.add(pacman)
 FPS = 60
 fuente1 = pygame.font.SysFont("segoe print", 25)
 texto = fuente1.render("COMIDA DISPONIBLE: ", True, BLANCO)
-imagen_muro = pygame.image.load('muro_1.png')
-imagen_fantasmas_dead = pygame.image.load('powerup.png').convert()
+imagen_muro = pygame.image.load('imagenes/muro_1.png')
+imagen_fantasmas_dead = pygame.image.load('imagenes/powerup.png').convert()
 muro_nuevo = pygame.transform.scale(imagen_muro, (20, 20))
 
 # MAPAS
-mapa = [
 
-                "                              ",
-                "                              ",
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                "x                            x",
-                # "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x                            x",
-                # "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                "x                            x",
-                # "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxfxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                "x                            x",
-                # "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                "x xxxxxxxxxmxxxxxxxxxx xxxxx x",
-                # "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-                "x                            x",
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-]
-#
-# mapa = [
-#
-#                 "                              ",
-#                 "                              ",
-#                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxfxxxxxxxxxxmxxxxxmx",
-#                 "xfxxxxxxxxxmxxxxxxxxxxmxxxxxfx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxfxxxxxxxxxxmxxxxxmx",
-#                 "xfxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
-#                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
-#                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-# ]
+mapa = [
+                 "                              ",
+                 "                              ",
+                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxfxxxxxxxxxxmxxxxxmx",
+                 "xfxxxxxxxxxmxxxxxxxxxxmxxxxxfx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxfxxxxxxxxxxmxxxxxmx",
+                 "xfxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmxxxxxxxxxmxxxxxxxxxxmxxxxxmx",
+                 "xmmmmmmmmmmmmmmmmmmmmmmmmmmmmx",
+                 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                 
+ ]
 
 MAPA2 = [
                 "                              ",
@@ -1035,15 +1004,15 @@ if (main(
     contador_modo_dead = 0
     direccion_pacman = 0
 
-    Fantasma1.image = pygame.image.load('fana.png').convert()
+    Fantasma1.image = pygame.image.load('imagenes/fana.png').convert()
     Fantasma1.image.set_colorkey(NEGRO)
     Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
 
-    Fantasma2.image = pygame.image.load('fantaa.png').convert()
+    Fantasma2.image = pygame.image.load('imagenes/fantaa.png').convert()
     Fantasma2.image.set_colorkey(NEGRO)
     Fantasma2.image = pygame.transform.scale(Fantasma2.image, (15, 15))
 
-    Fantasma3.image = pygame.image.load('azul.png').convert()
+    Fantasma3.image = pygame.image.load('imagenes/azul.png').convert()
     Fantasma3.image.set_colorkey(NEGRO)
     Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
 
