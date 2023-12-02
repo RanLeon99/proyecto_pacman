@@ -5,40 +5,63 @@ import random
 
 pygame.init()
 
-
 class Pacman(pygame.sprite.Sprite):
-    """ Clase de pacman, encargada de crear el personaje de pacman
-        Lee el teclado para poder mover el personaje a lo largo del mapa.
-    """
     def __init__(self):
-        """ CONSTRUCTOR DE Pacman
-        CARGA LA IMAGEN Y SCALE
-        LE DA POSICION INICAL DENTRO DE LA VENTANA
-        """
         super().__init__()
-        self.image = pygame.image.load('imagenes/2.png').convert()
-        self.image.set_colorkey(NEGRO)
-        self.image = pygame.transform.scale(self.image, (15, 15))
+
+        # se cargan todas las imagenes del movimeinto
+        self.images_pacman = [
+            pygame.image.load('imagenes/1.png').convert(),
+            pygame.image.load('imagenes/2.png').convert(),
+            pygame.image.load('imagenes/3.png').convert(),
+            pygame.image.load('imagenes/4.png').convert(),
+        ]
+
+        for i in range(len(self.images_pacman)):
+            self.images_pacman[i].set_colorkey(NEGRO)
+            self.images_pacman[i] = pygame.transform.scale(self.images_pacman[i], (15, 15))
+
+        self.image_index = 0
+        self.image = self.images_pacman[self.image_index]
+
         self.rect = self.image.get_rect()
         self.rect.centerx = 200
         self.rect.bottom = 280
-        self.speed_x = 10
+        self.speed = 2
+        self.animation_counter = 0
 
     def handle_event(self, event):
-        """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
-            DE PACMAN POR TODO EL MAPA
-        """
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                self.rect.centerx -= 2
-            if event.key == pygame.K_RIGHT:
-                self.rect.centerx += 2
-            if event.key == pygame.K_UP:
-                self.rect.bottom -= 2
-            if event.key == pygame.K_DOWN:
-                self.rect.bottom += 2
-
-
+                self.rect.x -= self.speed
+                self.image = pygame.transform.rotate(self.images_pacman[self.animation_counter], 180)
+                if self.animation_counter == 3:
+                    self.animation_counter = 0
+                else:
+                    self.animation_counter += 1
+            elif event.key == pygame.K_RIGHT:
+                self.rect.x += self.speed
+                self.image = pygame.transform.rotate(self.images_pacman[self.animation_counter], 0)
+                if self.animation_counter == 3:
+                    self.animation_counter = 0
+                else:
+                    self.animation_counter += 1
+            elif event.key == pygame.K_UP:
+                self.rect.y -= self.speed
+                self.image = pygame.transform.rotate(self.images_pacman[self.animation_counter], 90)
+                if self.animation_counter == 3:
+                    self.animation_counter = 0
+                else:
+                    self.animation_counter += 1
+            elif event.key == pygame.K_DOWN:
+                self.rect.y += self.speed
+                self.image = pygame.transform.rotate(self.images_pacman[self.animation_counter], -90)
+                if self.animation_counter == 3:
+                    self.animation_counter = 0
+                else:
+                    self.animation_counter += 1
+            
 class Fantasma1(pygame.sprite.Sprite):
     """ Clase de fantama1, encargada de crear un personaje de fantamas
         y genera su movimento aleatoriamente.
@@ -49,13 +72,48 @@ class Fantasma1(pygame.sprite.Sprite):
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.image = pygame.image.load('imagenes/fana.png').convert()
-        self.image.set_colorkey(NEGRO)
-        self.image = pygame.transform.scale(self.image, (15, 15))
+        self.images_fantasma_rojo_right = [
+            pygame.image.load('imagenes/rojo_1_rigth.png').convert(),
+            pygame.image.load('imagenes/rojo_2_rigth.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_rojo_right)):
+            self.images_fantasma_rojo_right[i].set_colorkey(NEGRO)
+            self.images_fantasma_rojo_right[i] = pygame.transform.scale(self.images_fantasma_rojo_right[i], (15, 15))
+
+        self.images_fantasma_rojo_left = [
+            pygame.image.load('imagenes/rojo_1_left.png').convert(),
+            pygame.image.load('imagenes/rojo_2_left.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_rojo_left)):
+            self.images_fantasma_rojo_left[i].set_colorkey(NEGRO)
+            self.images_fantasma_rojo_left[i] = pygame.transform.scale(self.images_fantasma_rojo_left[i], (15, 15))
+
+        self.images_fantasma_rojo_up = [
+            pygame.image.load('imagenes/rojo_1_up.png').convert(),
+            pygame.image.load('imagenes/rojo_2_up.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_rojo_up)):
+            self.images_fantasma_rojo_up[i].set_colorkey(NEGRO)
+            self.images_fantasma_rojo_up[i] = pygame.transform.scale(self.images_fantasma_rojo_up[i], (15, 15))
+
+        self.images_fantasma_rojo_down = [
+            pygame.image.load('imagenes/rojo_1_down.png').convert(),
+            pygame.image.load('imagenes/rojo_2_down.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_rojo_down)):
+            self.images_fantasma_rojo_down[i].set_colorkey(NEGRO)
+            self.images_fantasma_rojo_down[i] = pygame.transform.scale(self.images_fantasma_rojo_down[i], (15, 15))
+
+        self.image_index = 0
+        self.image = self.images_fantasma_rojo_right[self.image_index]
         self.rect = self.image.get_rect()
         self.rect.centerx = 100
         self.rect.bottom = 80
-        self.speed_x = 0
+        self.animation_counter = 0
 
     def handle_event(self, mov_fantasma1):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
@@ -69,12 +127,33 @@ class Fantasma1(pygame.sprite.Sprite):
         """
         if mov_fantasma1 == 0:
             self.rect.x += 1
+            self.image = pygame.transform.rotate(self.images_fantasma_rojo_right[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
+
         elif mov_fantasma1 == 1:
             self.rect.x -= 1
+            self.image = pygame.transform.rotate(self.images_fantasma_rojo_left[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
         elif mov_fantasma1 == 2:
             self.rect.y += 1
+            self.image = pygame.transform.rotate(self.images_fantasma_rojo_down[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
         else:
             self.rect.y -= 1
+            self.image = pygame.transform.rotate(self.images_fantasma_rojo_up[self.animation_counter],0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
 
 
 class Fantasma2(pygame.sprite.Sprite):
@@ -87,13 +166,49 @@ class Fantasma2(pygame.sprite.Sprite):
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.image = pygame.image.load('imagenes/fantaa.png').convert()
-        self.image.set_colorkey(NEGRO)
-        self.image = pygame.transform.scale(self.image, (15, 15))
+        self.images_fantasma_blue_right = [
+            pygame.image.load('imagenes/blue_1_rigth.png').convert(),
+            pygame.image.load('imagenes/blue_2_rigth.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_blue_right)):
+            self.images_fantasma_blue_right[i].set_colorkey(NEGRO)
+            self.images_fantasma_blue_right[i] = pygame.transform.scale(self.images_fantasma_blue_right[i], (15, 15))
+
+        self.images_fantasma_blue_left = [
+            pygame.image.load('imagenes/blue_1_left.png').convert(),
+            pygame.image.load('imagenes/blue_2_left.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_blue_left)):
+            self.images_fantasma_blue_left[i].set_colorkey(NEGRO)
+            self.images_fantasma_blue_left[i] = pygame.transform.scale(self.images_fantasma_blue_left[i], (15, 15))
+
+        self.images_fantasma_blue_up = [
+            pygame.image.load('imagenes/blue_1_up.png').convert(),
+            pygame.image.load('imagenes/blue_2_up.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_blue_up)):
+            self.images_fantasma_blue_up[i].set_colorkey(NEGRO)
+            self.images_fantasma_blue_up[i] = pygame.transform.scale(self.images_fantasma_blue_up[i], (15, 15))
+
+        self.images_fantasma_blue_down = [
+            pygame.image.load('imagenes/blue_1_down.png').convert(),
+            pygame.image.load('imagenes/blue_2_down.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_blue_down)):
+            self.images_fantasma_blue_down[i].set_colorkey(NEGRO)
+            self.images_fantasma_blue_down[i] = pygame.transform.scale(self.images_fantasma_blue_down[i], (15, 15))
+
+        self.image_index = 0
+        self.image = self.images_fantasma_blue_right[self.image_index]
+
         self.rect = self.image.get_rect()
         self.rect.centerx = 500
         self.rect.bottom = 80
-        self.speed_x = 0
+        self.animation_counter = 0
 
     def handle_event(self, mov_fantasma2):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
@@ -107,12 +222,33 @@ class Fantasma2(pygame.sprite.Sprite):
         """
         if mov_fantasma2 == 0:
             self.rect.x += 1
+            self.image = pygame.transform.rotate(self.images_fantasma_blue_right[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
+
         elif mov_fantasma2 == 1:
             self.rect.x -= 1
+            self.image = pygame.transform.rotate(self.images_fantasma_blue_left[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
         elif mov_fantasma2 == 2:
             self.rect.y += 1
+            self.image = pygame.transform.rotate(self.images_fantasma_blue_down[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
         else:
             self.rect.y -= 1
+            self.image = pygame.transform.rotate(self.images_fantasma_blue_up[self.animation_counter],0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
 
 
 class Fantasma3(pygame.sprite.Sprite):
@@ -121,17 +257,53 @@ class Fantasma3(pygame.sprite.Sprite):
         fatasma color ROJO
     """
     def __init__(self):
-        """ CONTRUCTOR DEL FANTASMA ROJO
+        """ CONTRUCTOR DEL FANTASMA AMARILLO
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.image = pygame.image.load('imagenes/azul.png').convert()
-        self.image.set_colorkey(NEGRO)
-        self.image = pygame.transform.scale(self.image, (15, 15))
+        self.images_fantasma_pink_right = [
+            pygame.image.load('imagenes/pink_1_rigth.png').convert(),
+            pygame.image.load('imagenes/pink_2_rigth.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_pink_right)):
+            self.images_fantasma_pink_right[i].set_colorkey(NEGRO)
+            self.images_fantasma_pink_right[i] = pygame.transform.scale(self.images_fantasma_pink_right[i], (15, 15))
+
+        self.images_fantasma_pink_left = [
+            pygame.image.load('imagenes/pink_1_left.png').convert(),
+            pygame.image.load('imagenes/pink_2_left.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_pink_left)):
+            self.images_fantasma_pink_left[i].set_colorkey(NEGRO)
+            self.images_fantasma_pink_left[i] = pygame.transform.scale(self.images_fantasma_pink_left[i], (15, 15))
+
+        self.images_fantasma_pink_up = [
+            pygame.image.load('imagenes/pink_1_up.png').convert(),
+            pygame.image.load('imagenes/pink_2_up.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_pink_up)):
+            self.images_fantasma_pink_up[i].set_colorkey(NEGRO)
+            self.images_fantasma_pink_up[i] = pygame.transform.scale(self.images_fantasma_pink_up[i], (15, 15))
+
+        self.images_fantasma_pink_down = [
+            pygame.image.load('imagenes/pink_1_down.png').convert(),
+            pygame.image.load('imagenes/pink_2_down.png').convert(),
+        ]
+
+        for i in range(len(self.images_fantasma_pink_down)):
+            self.images_fantasma_pink_down[i].set_colorkey(NEGRO)
+            self.images_fantasma_pink_down[i] = pygame.transform.scale(self.images_fantasma_pink_down[i], (15, 15))
+
+        self.image_index = 0
+        self.image = self.images_fantasma_pink_right[self.image_index]
+
         self.rect = self.image.get_rect()
         self.rect.centerx = 30
         self.rect.bottom = 400
-        self.speed_x = 0
+        self.animation_counter = 0
 
     def handle_event(self, mov_fantasma3):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
@@ -145,12 +317,33 @@ class Fantasma3(pygame.sprite.Sprite):
         """
         if mov_fantasma3 == 0:
             self.rect.x += 1
+            self.image = pygame.transform.rotate(self.images_fantasma_pink_right[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
+
         elif mov_fantasma3 == 1:
             self.rect.x -= 1
+            self.image = pygame.transform.rotate(self.images_fantasma_pink_left[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
         elif mov_fantasma3 == 2:
             self.rect.y += 1
+            self.image = pygame.transform.rotate(self.images_fantasma_pink_down[self.animation_counter], 0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
         else:
             self.rect.y -= 1
+            self.image = pygame.transform.rotate(self.images_fantasma_pink_up[self.animation_counter],0)
+            if self.animation_counter == 1:
+                self.animation_counter = 0
+            else:
+                self.animation_counter += 1
 
 
 def dibuja_muro(superficie, rectangulo, muro_nuevo):
@@ -326,7 +519,7 @@ def variable_movimento_fantasma1(mov_fantasma1):
     mov_fantasma1 = random.randint(0, 3)
     if mov_pasado != mov_fantasma1:
         Fantasma1.handle_event(mov_fantasma1)
-        print(' mov2 {}'.format(mov_fantasma1))
+        
     else:
         variable_movimento_fantasma1(mov_pasado)
     return mov_fantasma1
@@ -346,7 +539,7 @@ def variable_movimento_fantasma2(mov_fantasma2):
     mov_fantasma2 = random.randint(0, 3)
     if mov_pasado != mov_fantasma2:
         Fantasma2.handle_event(mov_fantasma2)
-        print(' mov2 {}'.format(mov_fantasma2))
+        
     else:
         variable_movimento_fantasma2(mov_pasado)
     return mov_fantasma2
@@ -367,35 +560,11 @@ def variable_movimento_fantasma3(mov_fantasma3):
     mov_fantasma3 = random.randint(0, 3)
     if mov_pasado != mov_fantasma3:
         Fantasma3.handle_event(mov_fantasma3)
-        print(' mov2 {}'.format(mov_fantasma3))
+        
     else:
         variable_movimento_fantasma3(mov_pasado)
     return mov_fantasma3
 
-
-def movmiento_pacma(direccion_pacman):
-    """
-        ROTA LA IMAGEN DEPENDIENDO LA DIRECCION DE PACMAN
-    """
-    if direccion_pacman == 0:  # derecha
-        pacman.image = pygame.image.load('imagenes/2.png').convert()
-        pacman.image.set_colorkey(NEGRO)
-        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
-    elif direccion_pacman == 1:  # IZQUIERDA
-        pacman.image = pygame.image.load('imagenes/2.png').convert()
-        pacman.image.set_colorkey(NEGRO)
-        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
-        pacman.image = pygame.transform.rotate(pacman.image, 180)
-    elif direccion_pacman == 2:  # ARRIBA
-        pacman.image = pygame.image.load('imagenes/2.png').convert()
-        pacman.image.set_colorkey(NEGRO)
-        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
-        pacman.image = pygame.transform.rotate(pacman.image, 90)
-    elif direccion_pacman == 3:  # ABAJO
-        pacman.image = pygame.image.load('imagenes/2.png').convert()
-        pacman.image.set_colorkey(NEGRO)
-        pacman.image = pygame.transform.scale(pacman.image, (15, 15))
-        pacman.image = pygame.transform.rotate(pacman.image, 270)
 
 
 def perdida():
@@ -569,18 +738,6 @@ def main(
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:  # si se preiosna p, abre pausa
                     pausa()
-                elif event.key == pygame.K_LEFT:
-                    direccion_pacman = 1
-                    movmiento_pacma(direccion_pacman)
-                elif event.key == pygame.K_RIGHT:
-                    direccion_pacman = 0
-                    movmiento_pacma(direccion_pacman)
-                elif event.key == pygame.K_UP:
-                    direccion_pacman = 2
-                    movmiento_pacma(direccion_pacman)
-                elif event.key == pygame.K_DOWN:
-                    direccion_pacman = 3
-                    movmiento_pacma(direccion_pacman)
 
         # CONFICION PARA IMPRIMIR EL MENU PRINCIAL
         if flag_manu == 1:
@@ -810,7 +967,7 @@ def main(
         # CONDICION PARA DESACTIR EL PODER
         if flag_mood_muerte is True:
             contador_modo_dead += 1
-            print(contador_modo_dead)
+            
             if contador_modo_dead >= 200:
                 flag_mood_muerte = False
                 contador_modo_dead = 200
