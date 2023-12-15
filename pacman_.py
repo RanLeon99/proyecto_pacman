@@ -5,6 +5,7 @@ import random
 
 pygame.init()
 
+
 class Pacman(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -62,60 +63,48 @@ class Pacman(pygame.sprite.Sprite):
                 else:
                     self.animation_counter += 1
             
-class Fantasma1(pygame.sprite.Sprite):
+class Fantasma(pygame.sprite.Sprite):
     """ Clase de fantama1, encargada de crear un personaje de fantamas
         y genera su movimento aleatoriamente.
         fatasma color ROJO
     """
-    def __init__(self):
+    def __init__(self, image_paths,x,y):
         """ CONTRUCTOR DEL FANTASMA ROJO
             CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
         """
         super().__init__()
-        self.images_fantasma_rojo_right = [
-            pygame.image.load('imagenes/rojo_1_rigth.png').convert(),
-            pygame.image.load('imagenes/rojo_2_rigth.png').convert(),
-        ]
+        self.images_fantasma_rojo_right = self.load_and_scale_images(image_paths["right"])
+        self.images_fantasma_rojo_left = self.load_and_scale_images(image_paths["left"])
+        self.images_fantasma_rojo_up = self.load_and_scale_images(image_paths["up"])
+        self.images_fantasma_rojo_down = self.load_and_scale_images(image_paths["down"])
 
-        for i in range(len(self.images_fantasma_rojo_right)):
-            self.images_fantasma_rojo_right[i].set_colorkey(NEGRO)
-            self.images_fantasma_rojo_right[i] = pygame.transform.scale(self.images_fantasma_rojo_right[i], (15, 15))
-
-        self.images_fantasma_rojo_left = [
-            pygame.image.load('imagenes/rojo_1_left.png').convert(),
-            pygame.image.load('imagenes/rojo_2_left.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_rojo_left)):
-            self.images_fantasma_rojo_left[i].set_colorkey(NEGRO)
-            self.images_fantasma_rojo_left[i] = pygame.transform.scale(self.images_fantasma_rojo_left[i], (15, 15))
-
-        self.images_fantasma_rojo_up = [
-            pygame.image.load('imagenes/rojo_1_up.png').convert(),
-            pygame.image.load('imagenes/rojo_2_up.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_rojo_up)):
-            self.images_fantasma_rojo_up[i].set_colorkey(NEGRO)
-            self.images_fantasma_rojo_up[i] = pygame.transform.scale(self.images_fantasma_rojo_up[i], (15, 15))
-
-        self.images_fantasma_rojo_down = [
-            pygame.image.load('imagenes/rojo_1_down.png').convert(),
-            pygame.image.load('imagenes/rojo_2_down.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_rojo_down)):
-            self.images_fantasma_rojo_down[i].set_colorkey(NEGRO)
-            self.images_fantasma_rojo_down[i] = pygame.transform.scale(self.images_fantasma_rojo_down[i], (15, 15))
+        self.image_directions = {
+            "right": self.images_fantasma_rojo_right,
+            "left": self.images_fantasma_rojo_left,
+            "up": self.images_fantasma_rojo_up,
+            "down": self.images_fantasma_rojo_down,
+        }
 
         self.image_index = 0
         self.image = self.images_fantasma_rojo_right[self.image_index]
         self.rect = self.image.get_rect()
-        self.rect.centerx = 100
-        self.rect.bottom = 80
+        self.rect.centerx = x
+        self.rect.bottom = y
         self.animation_counter = 0
 
-    def handle_event(self, mov_fantasma1):
+
+    def load_and_scale_images(self, image_paths):
+        """ Carga y escala las imágenes """
+        images = [pygame.image.load(path).convert() for path in image_paths]
+        for i in range(len(images)):
+            images[i].set_colorkey(NEGRO)
+            images[i] = pygame.transform.scale(images[i], (15, 15))
+        return images
+
+
+        
+
+    def handle_event(self,movimiento):
         """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
             DEL FANTASMA POR TODO EL MAPA
 
@@ -125,7 +114,8 @@ class Fantasma1(pygame.sprite.Sprite):
             2 = MOV ARRIBA
             3 = MOV ABAJO
         """
-        if mov_fantasma1 == 0:
+
+        if movimiento == 0:
             self.rect.x += 1
             self.image = pygame.transform.rotate(self.images_fantasma_rojo_right[self.animation_counter], 0)
             if self.animation_counter == 1:
@@ -133,14 +123,14 @@ class Fantasma1(pygame.sprite.Sprite):
             else:
                 self.animation_counter += 1
 
-        elif mov_fantasma1 == 1:
+        elif movimiento == 1:
             self.rect.x -= 1
             self.image = pygame.transform.rotate(self.images_fantasma_rojo_left[self.animation_counter], 0)
             if self.animation_counter == 1:
                 self.animation_counter = 0
             else:
                 self.animation_counter += 1
-        elif mov_fantasma1 == 2:
+        elif movimiento == 2:
             self.rect.y += 1
             self.image = pygame.transform.rotate(self.images_fantasma_rojo_down[self.animation_counter], 0)
             if self.animation_counter == 1:
@@ -150,196 +140,6 @@ class Fantasma1(pygame.sprite.Sprite):
         else:
             self.rect.y -= 1
             self.image = pygame.transform.rotate(self.images_fantasma_rojo_up[self.animation_counter],0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-
-
-class Fantasma2(pygame.sprite.Sprite):
-    """ Clase de fantama2, encargada de crear un personaje de fantamas
-        y genera su movimento aleatoriamente.
-        fatasma color AMARILLO
-    """
-    def __init__(self):
-        """ CONTRUCTOR DEL FANTASMA AMARILLO
-            CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
-        """
-        super().__init__()
-        self.images_fantasma_blue_right = [
-            pygame.image.load('imagenes/blue_1_rigth.png').convert(),
-            pygame.image.load('imagenes/blue_2_rigth.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_blue_right)):
-            self.images_fantasma_blue_right[i].set_colorkey(NEGRO)
-            self.images_fantasma_blue_right[i] = pygame.transform.scale(self.images_fantasma_blue_right[i], (15, 15))
-
-        self.images_fantasma_blue_left = [
-            pygame.image.load('imagenes/blue_1_left.png').convert(),
-            pygame.image.load('imagenes/blue_2_left.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_blue_left)):
-            self.images_fantasma_blue_left[i].set_colorkey(NEGRO)
-            self.images_fantasma_blue_left[i] = pygame.transform.scale(self.images_fantasma_blue_left[i], (15, 15))
-
-        self.images_fantasma_blue_up = [
-            pygame.image.load('imagenes/blue_1_up.png').convert(),
-            pygame.image.load('imagenes/blue_2_up.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_blue_up)):
-            self.images_fantasma_blue_up[i].set_colorkey(NEGRO)
-            self.images_fantasma_blue_up[i] = pygame.transform.scale(self.images_fantasma_blue_up[i], (15, 15))
-
-        self.images_fantasma_blue_down = [
-            pygame.image.load('imagenes/blue_1_down.png').convert(),
-            pygame.image.load('imagenes/blue_2_down.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_blue_down)):
-            self.images_fantasma_blue_down[i].set_colorkey(NEGRO)
-            self.images_fantasma_blue_down[i] = pygame.transform.scale(self.images_fantasma_blue_down[i], (15, 15))
-
-        self.image_index = 0
-        self.image = self.images_fantasma_blue_right[self.image_index]
-
-        self.rect = self.image.get_rect()
-        self.rect.centerx = 500
-        self.rect.bottom = 80
-        self.animation_counter = 0
-
-    def handle_event(self, mov_fantasma2):
-        """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
-            DEL FANTASMA POR TODO EL MAPA
-
-            INT = mov_fantasma
-            0 = MOV DERECHA
-            1 = MOV IZQUIERDA
-            2 = MOV ARRIBA
-            3 = MOV ABAJO
-        """
-        if mov_fantasma2 == 0:
-            self.rect.x += 1
-            self.image = pygame.transform.rotate(self.images_fantasma_blue_right[self.animation_counter], 0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-
-        elif mov_fantasma2 == 1:
-            self.rect.x -= 1
-            self.image = pygame.transform.rotate(self.images_fantasma_blue_left[self.animation_counter], 0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-        elif mov_fantasma2 == 2:
-            self.rect.y += 1
-            self.image = pygame.transform.rotate(self.images_fantasma_blue_down[self.animation_counter], 0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-        else:
-            self.rect.y -= 1
-            self.image = pygame.transform.rotate(self.images_fantasma_blue_up[self.animation_counter],0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-
-
-class Fantasma3(pygame.sprite.Sprite):
-    """ Clase de fantama1, encargada de crear un personaje de fantamas
-        y genera su movimento aleatoriamente.
-        fatasma color ROJO
-    """
-    def __init__(self):
-        """ CONTRUCTOR DEL FANTASMA AMARILLO
-            CARGA LA IMAGEN Y LE DA LA POSICION INICIAL
-        """
-        super().__init__()
-        self.images_fantasma_pink_right = [
-            pygame.image.load('imagenes/pink_1_rigth.png').convert(),
-            pygame.image.load('imagenes/pink_2_rigth.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_pink_right)):
-            self.images_fantasma_pink_right[i].set_colorkey(NEGRO)
-            self.images_fantasma_pink_right[i] = pygame.transform.scale(self.images_fantasma_pink_right[i], (15, 15))
-
-        self.images_fantasma_pink_left = [
-            pygame.image.load('imagenes/pink_1_left.png').convert(),
-            pygame.image.load('imagenes/pink_2_left.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_pink_left)):
-            self.images_fantasma_pink_left[i].set_colorkey(NEGRO)
-            self.images_fantasma_pink_left[i] = pygame.transform.scale(self.images_fantasma_pink_left[i], (15, 15))
-
-        self.images_fantasma_pink_up = [
-            pygame.image.load('imagenes/pink_1_up.png').convert(),
-            pygame.image.load('imagenes/pink_2_up.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_pink_up)):
-            self.images_fantasma_pink_up[i].set_colorkey(NEGRO)
-            self.images_fantasma_pink_up[i] = pygame.transform.scale(self.images_fantasma_pink_up[i], (15, 15))
-
-        self.images_fantasma_pink_down = [
-            pygame.image.load('imagenes/pink_1_down.png').convert(),
-            pygame.image.load('imagenes/pink_2_down.png').convert(),
-        ]
-
-        for i in range(len(self.images_fantasma_pink_down)):
-            self.images_fantasma_pink_down[i].set_colorkey(NEGRO)
-            self.images_fantasma_pink_down[i] = pygame.transform.scale(self.images_fantasma_pink_down[i], (15, 15))
-
-        self.image_index = 0
-        self.image = self.images_fantasma_pink_right[self.image_index]
-
-        self.rect = self.image.get_rect()
-        self.rect.centerx = 30
-        self.rect.bottom = 400
-        self.animation_counter = 0
-
-    def handle_event(self, mov_fantasma3):
-        """ FUNCION ENCARGADA PARA GENERAR EL MOVIMIENTO
-            DEL FANTASMA POR TODO EL MAPA
-
-            INT = mov_fantasma
-            0 = MOV DERECHA
-            1 = MOV IZQUIERDA
-            2 = MOV ARRIBA
-            3 = MOV ABAJO
-        """
-        if mov_fantasma3 == 0:
-            self.rect.x += 1
-            self.image = pygame.transform.rotate(self.images_fantasma_pink_right[self.animation_counter], 0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-
-        elif mov_fantasma3 == 1:
-            self.rect.x -= 1
-            self.image = pygame.transform.rotate(self.images_fantasma_pink_left[self.animation_counter], 0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-        elif mov_fantasma3 == 2:
-            self.rect.y += 1
-            self.image = pygame.transform.rotate(self.images_fantasma_pink_down[self.animation_counter], 0)
-            if self.animation_counter == 1:
-                self.animation_counter = 0
-            else:
-                self.animation_counter += 1
-        else:
-            self.rect.y -= 1
-            self.image = pygame.transform.rotate(self.images_fantasma_pink_up[self.animation_counter],0)
             if self.animation_counter == 1:
                 self.animation_counter = 0
             else:
@@ -1049,9 +849,42 @@ mov_fantasma3 = 0
 
 #  llamo los objetos de los personajes
 pacman = Pacman()
-Fantasma1 = Fantasma1()
-Fantasma2 = Fantasma2()
-Fantasma3 = Fantasma3()
+
+paths_rojo = {
+    "right": ['imagenes/rojo_1_rigth.png', 'imagenes/rojo_2_rigth.png'],
+    "left": ['imagenes/rojo_1_left.png', 'imagenes/rojo_2_left.png'],
+    "up": ['imagenes/rojo_1_up.png', 'imagenes/rojo_2_up.png'],
+    "down": ['imagenes/rojo_1_down.png', 'imagenes/rojo_2_down.png'],
+}
+
+paths_blue = {
+    "right": ['imagenes/blue_1_rigth.png', 'imagenes/blue_2_rigth.png'],
+    "left": ['imagenes/blue_1_left.png', 'imagenes/blue_2_left.png'],
+    "up": ['imagenes/blue_1_up.png', 'imagenes/blue_2_up.png'],
+    "down": ['imagenes/blue_1_down.png', 'imagenes/blue_2_down.png'],
+}
+
+paths_pink = {
+    "right": ['imagenes/pink_1_rigth.png', 'imagenes/pink_2_rigth.png'],
+    "left": ['imagenes/pink_1_left.png', 'imagenes/blue_2_left.png'],
+    "up": ['imagenes/pink_2_left.png', 'imagenes/pink_2_up.png'],
+    "down": ['imagenes/pink_1_down.png', 'imagenes/pink_2_down.png'],
+}
+
+
+x_rojo = 100
+y_rojo = 80
+
+x_blue = 500
+y_blue = 80
+
+x_pink = 30
+y_pink = 400
+
+
+Fantasma1 = Fantasma(paths_rojo,x_rojo,y_rojo)
+Fantasma2 = Fantasma(paths_blue,x_blue,y_blue)
+Fantasma3 = Fantasma(paths_pink,x_pink,y_pink)
 
 #  los agrego a un grupo de sprite
 enemigo1.add(Fantasma1)
@@ -1131,50 +964,8 @@ contador_modo_dead = 0
 direccion_pacman = 0
 
 # llamar la funcion de contruir mapa 1 para que forme la listas
-muros, comida, contador_comida, food_special = construir_mapa(mapa)
-muros2, comida2, contador_comida2, food_special2 = construir_mapa(MAPA2)
+muros, comida, contador_comida, food_special = construir_mapa(MAPA2)
 
-if (main(
-        contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
-        mov_fantasma3, muros, food_special, comida, flag_manu,
-        flag_mood_muerte, contador_modo_dead, direccion_pacman)):
-
-    mov_fantasma1 = 0
-    mov_fantasma2 = 1
-    mov_fantasma3 = 0
-
-    # LES DA NUEVAS POSICIONES A LOS SPRITE EN CADA NIVEL
-    pacman.rect.centerx = 240
-    pacman.rect.bottom = 280
-
-    Fantasma1.rect.centerx = 100
-    Fantasma1.rect.bottom = 80
-
-    Fantasma2.rect.centerx = 500
-    Fantasma2.rect.bottom = 80
-
-    Fantasma3.rect.centerx = 30
-    Fantasma3.rect.bottom = 400
-
-    flag_manu = 2
-    flag_mood_muerte = False
-    contador_modo_dead = 0
-    direccion_pacman = 0
-
-    Fantasma1.image = pygame.image.load('imagenes/fana.png').convert()
-    Fantasma1.image.set_colorkey(NEGRO)
-    Fantasma1.image = pygame.transform.scale(Fantasma1.image, (15, 15))
-
-    Fantasma2.image = pygame.image.load('imagenes/fantaa.png').convert()
-    Fantasma2.image.set_colorkey(NEGRO)
-    Fantasma2.image = pygame.transform.scale(Fantasma2.image, (15, 15))
-
-    Fantasma3.image = pygame.image.load('imagenes/azul.png').convert()
-    Fantasma3.image.set_colorkey(NEGRO)
-    Fantasma3.image = pygame.transform.scale(Fantasma3.image, (15, 15))
-
-    muros, comida, contador_comida, food_special = construir_mapa(MAPA2)
-    main(
-        contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
-        mov_fantasma3, muros, food_special, comida, flag_manu,
-        flag_mood_muerte, contador_modo_dead, direccion_pacman)
+main(contador_comida, vidas_pacman, mov_fantasma1, mov_fantasma2,
+    mov_fantasma3, muros, food_special, comida, flag_manu,
+    flag_mood_muerte, contador_modo_dead, direccion_pacman)
